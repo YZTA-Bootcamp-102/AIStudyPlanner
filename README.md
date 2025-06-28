@@ -1,5 +1,5 @@
 
-# [AIStudyPlanner]
+# AIStudyPlanner
 
 > [PROJE AÇIKLAMASI]
 
