@@ -78,7 +78,7 @@ YZTA-Bootcamp-102/
 
 | Platform | Link |
 |----------|------|
-| GitHub | [github.com/mehmeterguden/YZTA-Bootcamp-102](https://github.com/mehmeterguden/YZTA-Bootcamp-102) |
+| GitHub | [ttps://github.com/YZTA-Bootcamp-102/AIStudyPlanner/](https://github.com/YZTA-Bootcamp-102/AIStudyPlanner/) |
 | Demo | - |
 | Dokümantasyon | - |
 
