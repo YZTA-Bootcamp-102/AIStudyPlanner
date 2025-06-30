@@ -1,7 +1,7 @@
 
 # AIStudyPlanner
 
-> 📚 Proje Açıklaması
+📚 Proje Açıklaması
 Bu proje, kullanıcıların eğitim süreçlerini daha etkili ve verimli bir şekilde yönetmelerini sağlayan AI destekli bir öğrenme ve görev planlama platformudur. Platformun temel özellikleri şunlardır:
 
 🚀 Özellikler
