@@ -1,22 +1,55 @@
 
-# AIStudyPlanner
+# 📚 AIStudyPlanner
 
-📚 Proje Açıklaması
-Bu proje, kullanıcıların eğitim süreçlerini daha etkili ve verimli bir şekilde yönetmelerini sağlayan AI destekli bir öğrenme ve görev planlama platformudur. Platformun temel özellikleri şunlardır:
+Yapay zeka destekli **öğrenme planlayıcınız**: Hedeflerinize uygun, akıllı ve kişiselleştirilmiş bir eğitim deneyimi.
 
-🚀 Özellikler
-AI Destekli Eğitim Modülü ve Gün Bazlı Planlama
-Kullanıcının öğrenme hedeflerine ve içerik yoğunluğuna göre yapay zeka tarafından kişiselleştirilmiş günlük planlar ve modül yapısı oluşturulur.
+---
 
-Takvim Entegrasyonu ve Görev Hatırlatmaları
-Google Takvim gibi servislerle entegrasyon sayesinde görevler takvime otomatik olarak eklenir. Belirlenen saatlerde hatırlatmalar gönderilerek kullanıcıların motivasyonu yüksek tutulur.
+## 🧾 İçindekiler
+- [📚 Proje Açıklaması](#proje-açıklaması)
+- [🎯 Proje Amacı](#proje-amacı)
+- [🚀 Özellikler](#özellikler)
+- [🧠 Kullanılan Teknolojiler](#kullanılan-teknolojiler)
+- [🧩 Temel Özellikler](#temel-özellikler)
+- [📅 Sprint Planı](#sprint-planı)
+- [📁 Klasör Yapısı](#klasör-yapısı)
+- [🔗 Proje Linkleri](#proje-linkleri)
+- [👥 Proje Ekibi](#proje-ekibi)
+- [📝 Notlar](#notlar)
 
-Günlük Görev Takibi ve Öğrenme İlerlemesi Ölçümü
-Kullanıcının tamamladığı görevler günlük olarak izlenir. AI destekli analizler ile öğrenme performansı değerlendirilir ve gelişim raporları sunulur.
+---
 
-AI Destekli Çalışma İpuçları ve Yönlendirme
-Kullanıcının davranış ve performans verilerine göre, yapay zeka odaklanmayı artıracak ipuçları, zaman yönetimi önerileri ve öğrenme teknikleri sunar. Kişiye özel yönlendirmelerle daha etkili bir öğrenme deneyimi sağlanır.
+## 📚 Proje Açıklaması
 
+AIStudyPlanner, kullanıcıların eğitim süreçlerini **daha verimli, organize ve sürdürülebilir** hale getirmeyi amaçlayan bir yapay zeka destekli planlama platformudur. Sistem, kişiselleştirilmiş görev atamaları, takvim entegrasyonu ve gelişim raporları gibi birçok işlevi bir araya getirir.
+
+---
+
+## 🎯 Proje Amacı
+
+Bu projenin amacı; bireylerin ya da ekiplerin öğrenme ve gelişim süreçlerini sistematik olarak takip etmelerini sağlamak ve yapay zeka desteğiyle bu süreci optimize etmektir. 
+
+Kullanıcılar, günlük olarak AI tarafından oluşturulan planlara göre çalışır; takvim entegrasyonu sayesinde hatırlatmalar alır ve ilerlemelerini gerçek zamanlı takip edebilir.
+
+---
+
+## 🚀 Özellikler
+
+### ✅ AI Destekli Eğitim Modülü ve Günlük Planlama
+- Öğrenme hedeflerine göre **kişiye özel günlük plan** oluşturulur.
+
+### ✅ Takvim Entegrasyonu ve Hatırlatmalar
+- Google Takvim gibi platformlara **otomatik görev ekleme**.
+- Belirli saatlerde **bildirimlerle motivasyon artırımı**.
+
+### ✅ Günlük Görev Takibi ve Performans Analizi
+- Kullanıcının tamamladığı görevler **AI destekli analizle** değerlendirilir.
+- **Gelişim raporları** sunulur.
+
+### ✅ Akıllı Yönlendirme ve Çalışma İpuçları
+- Kullanıcının davranış ve performansına göre **odak artırıcı öneriler** ve **öğrenme teknikleri** sağlanır.
+
+---
 
 ## 👥 Proje Ekibi
 
@@ -27,13 +60,6 @@ Kullanıcının davranış ve performans verilerine göre, yapay zeka odaklanmay
 | **Muhammed Kasım Oğuz**| 💻 Developer | [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/kasimoguzz) [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/muhammed-kasim-oguz/) |
 | **Emre Saygın** | 💻 Developer | [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/emresaygin59) [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/emresaygin/) |
 
----
-
-## 🎯 Proje Amacı
-
-📝 Bu projenin temel amacı, bireylerin veya ekiplerin eğitim ve kişisel gelişim süreçlerini daha verimli ve sürdürülebilir hale getirmek için yapay zeka destekli bir planlama ve takip sistemi sunmaktır.
-
-Kullanıcıların hedeflerine uygun olarak günlük öğrenme planları oluşturulması, görevlerin takvime entegre edilerek hatırlatılması ve ilerleme takibi sayesinde, eğitim süreci sistematik ve motive edici bir hale gelir. Ayrıca, AI tarafından sağlanan çalışma ipuçları ve kişiselleştirilmiş yönlendirmelerle kullanıcıların verimliliği artırılır ve öğrenme deneyimi optimize edilir.
 
 ---
 
