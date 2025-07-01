@@ -1,8 +1,7 @@
 from fastapi import FastAPI, Request
 from starlette.middleware.cors import CORSMiddleware
-
 from database import engine
-from .models import Base
+from models import Base
 from routers.auth import router as auth_router
 import os
 
