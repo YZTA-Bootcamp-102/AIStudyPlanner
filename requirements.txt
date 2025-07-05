@@ -1,0 +1,13 @@
+graphviz==0.21
+greenlet==3.2.3
+importlib_metadata==8.7.0
+inflect==7.5.0
+more-itertools==10.7.0
+psycopg2-binary==2.9.10
+python-dotenv==1.1.1
+sqlacodegen==3.0.0
+SQLAlchemy==2.0.41
+SQLAlchemy-Utils==0.41.2
+typeguard==4.4.4
+typing_extensions==4.14.1
+zipp==3.23.0
