@@ -1,0 +1,204 @@
+digraph G {
+  rankdir="LR";
+  "level_questions" [shape=box, label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td colspan="2" bgcolor="lightblue"><b>level_questions</b></td></tr>
+    <tr><td align="left">id</td><td align="left">INTEGER <font color='red'>PK</font></td></tr>
+    <tr><td align="left">topic</td><td align="left">VARCHAR(100) </td></tr>
+    <tr><td align="left">question_text</td><td align="left">TEXT </td></tr>
+    <tr><td align="left">correct_option</td><td align="left">VARCHAR(1) </td></tr>
+    <tr><td align="left">created_at</td><td align="left">DATETIME </td></tr>
+  </table>>];
+  "users" [shape=box, label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td colspan="2" bgcolor="lightblue"><b>users</b></td></tr>
+    <tr><td align="left">id</td><td align="left">INTEGER <font color='red'>PK</font></td></tr>
+    <tr><td align="left">email</td><td align="left">VARCHAR(120) </td></tr>
+    <tr><td align="left">username</td><td align="left">VARCHAR(50) </td></tr>
+    <tr><td align="left">first_name</td><td align="left">VARCHAR(50) </td></tr>
+    <tr><td align="left">last_name</td><td align="left">VARCHAR(50) </td></tr>
+    <tr><td align="left">hashed_password</td><td align="left">VARCHAR(100) </td></tr>
+    <tr><td align="left">is_active</td><td align="left">BOOLEAN </td></tr>
+    <tr><td align="left">role</td><td align="left">VARCHAR(5) </td></tr>
+    <tr><td align="left">phone_number</td><td align="left">VARCHAR(20) </td></tr>
+    <tr><td align="left">total_study_minutes</td><td align="left">INTEGER </td></tr>
+    <tr><td align="left">current_tree_stage</td><td align="left">VARCHAR(11) </td></tr>
+    <tr><td align="left">created_at</td><td align="left">DATETIME </td></tr>
+    <tr><td align="left">updated_at</td><td align="left">DATETIME </td></tr>
+  </table>>];
+  "ai_hints" [shape=box, label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td colspan="2" bgcolor="lightblue"><b>ai_hints</b></td></tr>
+    <tr><td align="left">id</td><td align="left">INTEGER <font color='red'>PK</font></td></tr>
+    <tr><td align="left">user_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">date</td><td align="left">DATE </td></tr>
+    <tr><td align="left">hint_text</td><td align="left">TEXT </td></tr>
+    <tr><td align="left">user_feedback</td><td align="left">VARCHAR(50) </td></tr>
+    <tr><td align="left">created_at</td><td align="left">DATETIME </td></tr>
+  </table>>];
+  "calendar_integrations" [shape=box, label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td colspan="2" bgcolor="lightblue"><b>calendar_integrations</b></td></tr>
+    <tr><td align="left">id</td><td align="left">INTEGER <font color='red'>PK</font></td></tr>
+    <tr><td align="left">user_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">provider</td><td align="left">VARCHAR(50) </td></tr>
+    <tr><td align="left">calendar_id</td><td align="left">VARCHAR(100) </td></tr>
+    <tr><td align="left">sync_token</td><td align="left">VARCHAR(200) </td></tr>
+    <tr><td align="left">created_at</td><td align="left">DATETIME </td></tr>
+    <tr><td align="left">updated_at</td><td align="left">DATETIME </td></tr>
+  </table>>];
+  "learning_goals" [shape=box, label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td colspan="2" bgcolor="lightblue"><b>learning_goals</b></td></tr>
+    <tr><td align="left">id</td><td align="left">INTEGER <font color='red'>PK</font></td></tr>
+    <tr><td align="left">user_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">goal_text</td><td align="left">TEXT </td></tr>
+    <tr><td align="left">interest_areas</td><td align="left">VARCHAR(200) </td></tr>
+    <tr><td align="left">current_knowledge_level</td><td align="left">VARCHAR(50) </td></tr>
+    <tr><td align="left">start_date</td><td align="left">DATE </td></tr>
+    <tr><td align="left">target_end_date</td><td align="left">DATE </td></tr>
+    <tr><td align="left">is_active</td><td align="left">BOOLEAN </td></tr>
+    <tr><td align="left">is_achieved</td><td align="left">BOOLEAN </td></tr>
+    <tr><td align="left">created_at</td><td align="left">DATETIME </td></tr>
+    <tr><td align="left">updated_at</td><td align="left">DATETIME </td></tr>
+  </table>>];
+  "level_question_options" [shape=box, label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td colspan="2" bgcolor="lightblue"><b>level_question_options</b></td></tr>
+    <tr><td align="left">id</td><td align="left">INTEGER <font color='red'>PK</font></td></tr>
+    <tr><td align="left">question_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">option_key</td><td align="left">VARCHAR(1) </td></tr>
+    <tr><td align="left">option_text</td><td align="left">TEXT </td></tr>
+    <tr><td align="left">created_at</td><td align="left">DATETIME </td></tr>
+  </table>>];
+  "progress" [shape=box, label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td colspan="2" bgcolor="lightblue"><b>progress</b></td></tr>
+    <tr><td align="left">id</td><td align="left">INTEGER <font color='red'>PK</font></td></tr>
+    <tr><td align="left">user_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">cumulative_score</td><td align="left">INTEGER </td></tr>
+    <tr><td align="left">badges</td><td align="left">VARCHAR(200) </td></tr>
+    <tr><td align="left">week</td><td align="left">INTEGER </td></tr>
+    <tr><td align="left">month</td><td align="left">INTEGER </td></tr>
+    <tr><td align="left">year</td><td align="left">INTEGER </td></tr>
+    <tr><td align="left">created_at</td><td align="left">DATETIME </td></tr>
+    <tr><td align="left">updated_at</td><td align="left">DATETIME </td></tr>
+  </table>>];
+  "weekly_reviews" [shape=box, label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td colspan="2" bgcolor="lightblue"><b>weekly_reviews</b></td></tr>
+    <tr><td align="left">id</td><td align="left">INTEGER <font color='red'>PK</font></td></tr>
+    <tr><td align="left">user_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">week_number</td><td align="left">INTEGER </td></tr>
+    <tr><td align="left">year</td><td align="left">INTEGER </td></tr>
+    <tr><td align="left">strengths</td><td align="left">TEXT </td></tr>
+    <tr><td align="left">improvement_areas</td><td align="left">TEXT </td></tr>
+    <tr><td align="left">comparison_with_previous</td><td align="left">TEXT </td></tr>
+    <tr><td align="left">created_at</td><td align="left">DATETIME </td></tr>
+  </table>>];
+  "ai_conversations" [shape=box, label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td colspan="2" bgcolor="lightblue"><b>ai_conversations</b></td></tr>
+    <tr><td align="left">id</td><td align="left">INTEGER <font color='red'>PK</font></td></tr>
+    <tr><td align="left">user_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">learning_goal_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">user_input</td><td align="left">TEXT </td></tr>
+    <tr><td align="left">ai_response</td><td align="left">TEXT </td></tr>
+    <tr><td align="left">timestamp</td><td align="left">DATETIME </td></tr>
+  </table>>];
+  "daily_tasks" [shape=box, label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td colspan="2" bgcolor="lightblue"><b>daily_tasks</b></td></tr>
+    <tr><td align="left">id</td><td align="left">INTEGER <font color='red'>PK</font></td></tr>
+    <tr><td align="left">user_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">learning_goal_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">title</td><td align="left">VARCHAR(100) </td></tr>
+    <tr><td align="left">description</td><td align="left">TEXT </td></tr>
+    <tr><td align="left">date</td><td align="left">DATE </td></tr>
+    <tr><td align="left">start_time</td><td align="left">TIME </td></tr>
+    <tr><td align="left">duration_minutes</td><td align="left">INTEGER </td></tr>
+    <tr><td align="left">is_completed</td><td align="left">BOOLEAN </td></tr>
+    <tr><td align="left">calendar_event_id</td><td align="left">VARCHAR(100) </td></tr>
+    <tr><td align="left">created_at</td><td align="left">DATETIME </td></tr>
+    <tr><td align="left">updated_at</td><td align="left">DATETIME </td></tr>
+  </table>>];
+  "learning_modules" [shape=box, label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td colspan="2" bgcolor="lightblue"><b>learning_modules</b></td></tr>
+    <tr><td align="left">id</td><td align="left">INTEGER <font color='red'>PK</font></td></tr>
+    <tr><td align="left">learning_goal_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">title</td><td align="left">VARCHAR(100) </td></tr>
+    <tr><td align="left">description</td><td align="left">TEXT </td></tr>
+    <tr><td align="left">category</td><td align="left">VARCHAR(50) </td></tr>
+    <tr><td align="left">order</td><td align="left">INTEGER </td></tr>
+    <tr><td align="left">learning_outcome</td><td align="left">TEXT </td></tr>
+    <tr><td align="left">created_at</td><td align="left">DATETIME </td></tr>
+    <tr><td align="left">updated_at</td><td align="left">DATETIME </td></tr>
+    <tr><td align="left">user_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+  </table>>];
+  "level_answers" [shape=box, label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td colspan="2" bgcolor="lightblue"><b>level_answers</b></td></tr>
+    <tr><td align="left">id</td><td align="left">INTEGER <font color='red'>PK</font></td></tr>
+    <tr><td align="left">user_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">question_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">learning_goal_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">selected_option</td><td align="left">VARCHAR(1) </td></tr>
+    <tr><td align="left">timestamp</td><td align="left">DATETIME </td></tr>
+  </table>>];
+  "mindmap_nodes" [shape=box, label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td colspan="2" bgcolor="lightblue"><b>mindmap_nodes</b></td></tr>
+    <tr><td align="left">id</td><td align="left">INTEGER <font color='red'>PK</font></td></tr>
+    <tr><td align="left">user_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">learning_goal_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">text</td><td align="left">TEXT </td></tr>
+    <tr><td align="left">parent_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">position_x</td><td align="left">INTEGER </td></tr>
+    <tr><td align="left">position_y</td><td align="left">INTEGER </td></tr>
+    <tr><td align="left">is_ai_generated</td><td align="left">BOOLEAN </td></tr>
+    <tr><td align="left">created_at</td><td align="left">DATETIME </td></tr>
+    <tr><td align="left">updated_at</td><td align="left">DATETIME </td></tr>
+  </table>>];
+  "sprint_plans" [shape=box, label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td colspan="2" bgcolor="lightblue"><b>sprint_plans</b></td></tr>
+    <tr><td align="left">id</td><td align="left">INTEGER <font color='red'>PK</font></td></tr>
+    <tr><td align="left">user_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">learning_goal_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">start_date</td><td align="left">DATE </td></tr>
+    <tr><td align="left">end_date</td><td align="left">DATE </td></tr>
+    <tr><td align="left">objectives</td><td align="left">TEXT </td></tr>
+    <tr><td align="left">summary</td><td align="left">TEXT </td></tr>
+    <tr><td align="left">created_at</td><td align="left">DATETIME </td></tr>
+    <tr><td align="left">updated_at</td><td align="left">DATETIME </td></tr>
+  </table>>];
+  "study_sessions" [shape=box, label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td colspan="2" bgcolor="lightblue"><b>study_sessions</b></td></tr>
+    <tr><td align="left">id</td><td align="left">INTEGER <font color='red'>PK</font></td></tr>
+    <tr><td align="left">user_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">learning_goal_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">duration_minutes</td><td align="left">INTEGER </td></tr>
+    <tr><td align="left">date</td><td align="left">DATE </td></tr>
+    <tr><td align="left">growth_stage</td><td align="left">VARCHAR(11) </td></tr>
+    <tr><td align="left">created_at</td><td align="left">DATETIME </td></tr>
+  </table>>];
+  "reminders" [shape=box, label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="4">
+    <tr><td colspan="2" bgcolor="lightblue"><b>reminders</b></td></tr>
+    <tr><td align="left">id</td><td align="left">INTEGER <font color='red'>PK</font></td></tr>
+    <tr><td align="left">task_id</td><td align="left">INTEGER <font color='green'>FK</font></td></tr>
+    <tr><td align="left">notify_time</td><td align="left">DATETIME </td></tr>
+    <tr><td align="left">method</td><td align="left">VARCHAR(5) </td></tr>
+    <tr><td align="left">message</td><td align="left">TEXT </td></tr>
+    <tr><td align="left">created_at</td><td align="left">DATETIME </td></tr>
+  </table>>];
+  "ai_hints" -> "users" [label="user_id"];
+  "calendar_integrations" -> "users" [label="user_id"];
+  "learning_goals" -> "users" [label="user_id"];
+  "level_question_options" -> "level_questions" [label="question_id"];
+  "progress" -> "users" [label="user_id"];
+  "weekly_reviews" -> "users" [label="user_id"];
+  "ai_conversations" -> "users" [label="user_id"];
+  "ai_conversations" -> "learning_goals" [label="learning_goal_id"];
+  "daily_tasks" -> "users" [label="user_id"];
+  "daily_tasks" -> "learning_goals" [label="learning_goal_id"];
+  "learning_modules" -> "learning_goals" [label="learning_goal_id"];
+  "learning_modules" -> "users" [label="user_id"];
+  "level_answers" -> "users" [label="user_id"];
+  "level_answers" -> "level_questions" [label="question_id"];
+  "level_answers" -> "learning_goals" [label="learning_goal_id"];
+  "mindmap_nodes" -> "users" [label="user_id"];
+  "mindmap_nodes" -> "learning_goals" [label="learning_goal_id"];
+  "mindmap_nodes" -> "mindmap_nodes" [label="parent_id"];
+  "sprint_plans" -> "users" [label="user_id"];
+  "sprint_plans" -> "learning_goals" [label="learning_goal_id"];
+  "study_sessions" -> "users" [label="user_id"];
+  "study_sessions" -> "learning_goals" [label="learning_goal_id"];
+  "reminders" -> "daily_tasks" [label="task_id"];
+}
