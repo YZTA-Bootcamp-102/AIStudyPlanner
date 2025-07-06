@@ -1,80 +1,92 @@
 import os
-import requests
-from typing import List
-from backend.schemas.learning import LearningModuleCreate
+import google.generativeai as genai
+import json
 from dotenv import load_dotenv
+from backend.schemas.learning import LearningModuleCreate
+import re  # Metin temizleme için re modülünü ekledik
 
-# .env dosyasındaki değişkenleri yükler
 load_dotenv()
 
-# Google Gemini API anahtarı ve istek URL'si
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText"
+# API Anahtarınızı ortam değişkeninden alın
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+if not GEMINI_API_KEY:
+    raise ValueError("GEMINI_API_KEY ortam değişkeni eksik.")
 
-def generate_learning_modules(goal_text: str, interest_areas: str, level: str) -> List[LearningModuleCreate]:
+# Gemini API'sini anahtarınızla yapılandırın
+genai.configure(api_key=GEMINI_API_KEY)
+
+
+def generate_learning_modules(goal_text: str, interest_areas: str, level: str) -> list[LearningModuleCreate]:
     """
-    Google Gemini API (PaLM 2) kullanarak, kullanıcı hedeflerine göre öğrenme modülleri üretir.
-
-    Parametreler:
-        goal_text: Kullanıcının genel öğrenme hedefi (örneğin "Python'da uzmanlaşmak")
-        interest_areas: Kullanıcının ilgi alanları (örneğin "Python, Veri Bilimi")
-        level: Kullanıcının mevcut bilgi seviyesi (örneğin "başlangıç", "orta", "ileri")
-
-    Dönüş:
-        AI tarafından oluşturulan öğrenme modüllerinin LearningModuleCreate listesi
+    Kullanıcının hedeflerine, ilgi alanlarına ve seviyesine göre
+    Gemini API kullanarak öğrenme modülleri oluşturur.
     """
+    # Model olarak 'gemini-1.5-flash' kullanıyoruz, daha yeni ve verimli bir model.
+    model = genai.GenerativeModel('gemini-1.5-flash')
 
-    if not GOOGLE_API_KEY:
-        # Ortam değişkeni tanımlı değilse hata fırlat
-        raise ValueError("GOOGLE_API_KEY not found in environment.")
+    # Prompt'u daha net hale getirdik ve sadece JSON istediğimizi belirttik.
+    prompt_text = f"""
+    Sen bir eğitim içeriği oluşturma asistanısın.
+    Kullanıcının hedefi: "{goal_text}"
+    İlgi alanları: "{interest_areas}"
+    Seviyesi: "{level}"
 
-    # AI modeline gönderilecek istem (prompt) metni
-    prompt = f"""
-Sen bir eğitim asistanısın. Kullanıcının hedefi: "{goal_text}". İlgi alanları: "{interest_areas}". Seviyesi: "{level}".
-
-Bu bilgiler ışığında, kullanıcının öğrenmesini destekleyecek 2-4 adet öğrenme modülü öner. Her modül şu formatta olsun:
-
-- Başlık
-- Açıklama
-- Kategori
-- Sıra
-- Öğrenme çıktısı
-
-JSON formatında bir liste döndür:
-[
-  {{
-    "title": "...",
-    "description": "...",
-    "category": "...",
-    "order": 1,
-    "learning_outcome": "..."
-  }},
-  ...
-]
+    Bu bilgiler ışığında, kullanıcının hedefine ulaşmasını sağlayacak 2 ile 4 arasında öğrenme modülü oluştur.
+    Her modül şu alanları içermelidir: "title", "description", "category", "order", "learning_outcome".
+    Yanıt olarak SADECE ve SADECE bir JSON dizisi (array) döndür. Başka hiçbir metin, açıklama veya markdown formatı ekleme.
     """
-
-    # Google Gemini API'ye istek gönderiliyor
-    response = requests.post(
-        GEMINI_API_URL,
-        params={"key": GOOGLE_API_KEY},
-        json={"prompt": {"text": prompt}, "temperature": 0.7}
-    )
-
-    # API'den hata dönerse durumu kullanıcıya bildir
-    if response.status_code != 200:
-        raise RuntimeError(f"Gemini API error: {response.status_code} - {response.text}")
 
     try:
-        # API yanıtından metin (JSON string olarak dönmüş modül listesi) alınır
-        text_response = response.json()["candidates"][0]["output"]
+        # GenerationConfig'e response_mime_type ekleyerek modelin JSON formatında
+        # çıktı vermesini sağlıyoruz. Bu, en güvenilir yöntemdir.
+        response = model.generate_content(
+            prompt_text,
+            generation_config=genai.types.GenerationConfig(
+                candidate_count=1,
+                max_output_tokens=2048,  # Olası kesintileri önlemek için token limitini artırdık
+                temperature=0.7,
+                response_mime_type="application/json",  # Modelin JSON döndürmesini zorunlu kılar
+            )
+        )
 
-        # Not: eval() güvenli değil! Sadece güvenilir kaynaklardan gelen JSON metniyle kullanılmalı.
-        # Gerçek projede burada json.loads() kullanılmalıdır.
-        module_dicts = eval(text_response)
+        text_response = response.text
 
-        # JSON'dan oluşturulan dict'leri LearningModuleCreate nesnelerine dönüştür
+        # Hata ayıklama için API'den gelen ham yanıtı yazdıralım
+        print("--- Gemini API Raw Response ---")
+        print(text_response)
+        print("-----------------------------")
+
+        # response_mime_type kullanıldığında genellikle temizleme gerekmez,
+        # ancak ne olur ne olmaz diye bir temizleme adımı bırakmakta fayda var.
+        # Bu kod, yanıtın içinde gömülü olabilecek bir JSON bloğunu bulup çıkarır.
+        # Örneğin ```json ... ``` gibi bir yapı varsa temizler.
+        match = re.search(r'```(json)?(.*)```', text_response, re.DOTALL)
+        if match:
+            # Markdown bloğunun içindeki içeriği al
+            json_str = match.group(2).strip()
+        else:
+            # Markdown yoksa, doğrudan metni kullan
+            json_str = text_response.strip()
+
+        # Temizlenmiş metni JSON olarak ayrıştır
+        module_dicts = json.loads(json_str)
+
+        # Sözlük listesini Pydantic modellerine dönüştür
         return [LearningModuleCreate(**module) for module in module_dicts]
 
+    except json.JSONDecodeError as e:
+        # JSON ayrıştırma hatası olursa, daha açıklayıcı bir hata mesajı verelim
+        error_message = f"JSON Decode Hatası: {e}. AI'dan gelen yanıt geçerli bir JSON değildi. Gelen Yanıt: '{text_response}'"
+        print(error_message)
+        raise ValueError(error_message) from e
+
     except Exception as e:
-        # API'den gelen cevap çözümlenemediğinde hata döndür
-        raise ValueError(f"AI'dan gelen yanıt işlenemedi: {e}")
+        # Diğer tüm olası hataları yakala
+        # `response` değişkeninin bu scope'ta var olup olmadığını kontrol et
+        raw_response_text = "N/A"
+        if 'response' in locals() and hasattr(response, 'text'):
+            raw_response_text = response.text
+
+        error_message = f"AI'dan gelen yanıt işlenemedi veya API hatası oluştu: {e}. Gelen Yanıt: '{raw_response_text}'"
+        print(error_message)
+        raise ValueError(error_message) from e

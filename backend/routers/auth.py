@@ -10,6 +10,7 @@ from backend.services.auth_service import (
 )
 from backend.database import get_db
 from backend.models import User
+from types import SimpleNamespace
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
@@ -17,8 +18,8 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 # Yeni kullanıcı kaydı
 @router.post("/", status_code=status.HTTP_201_CREATED)
 def register_user(
-    firstname: str = Form(...),
-    lastname: str = Form(...),
+    first_name: str = Form(...),
+    last_name: str = Form(...),
     username: str = Form(...),
     email: str = Form(...),
     password: str = Form(...),
@@ -37,19 +38,20 @@ def register_user(
 
     # Kullanıcı nesnesi oluşturuluyor
     user = User(
-        firstname=firstname,
-        lastname=lastname,
+        first_name=first_name,
+        last_name=last_name,
         username=username,
         email=email,
         phone_number=phone_number,
         role=role,
         is_active=True,
-        password_hash=get_password_hash(password)
+        hashed_password=get_password_hash(password)
     )
+
     db.add(user)
     db.commit()
     db.refresh(user)
-    return {"user_id": user.user_id, "email": user.email}
+    return {"user_id": user.id, "email": user.email}
 
 
 # Giriş yapıp access/refresh token alma
@@ -89,7 +91,14 @@ def refresh_token(refresh_token: str = Form(...)):
     payload = verify_refresh_token(refresh_token)
 
     # Burada kullanıcıyı tekrar DB'den çekmek gerekebilir.
-    dummy_user = type("U", (), payload)
+    dummy_user = SimpleNamespace(
+        username=payload["sub"],
+        id=payload["user_id"],
+        role=payload["role"],
+        email=payload["email"],
+        first_name=payload["first_name"]
+    )
+
     new_access = create_access_token(dummy_user, timedelta(minutes=60))
 
     return {
@@ -106,13 +115,13 @@ def get_me(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     Geçerli access token'dan kullanıcı bilgisi getirir.
     """
     payload = verify_access_token(token)
-    user = db.query(User).filter(User.user_id == payload["user_id"]).first()
+    user = db.query(User).filter(User.id == payload["user_id"]).first()
     if not user:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "User not found")
     return {
-        "user_id": user.user_id,
-        "firstname": user.firstname,
-        "lastname": user.lastname,
+        "user_id": user.id,
+        "firstname": user.first_name,
+        "lastname": user.last_name,
         "username": user.username,
         "email": user.email,
         "phone_number": user.phone_number,

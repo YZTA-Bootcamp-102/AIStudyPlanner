@@ -62,10 +62,10 @@ def create_access_token(user: User, expires_delta: timedelta | None = None) -> s
 
     data = {
         "sub": user.username,
-        "user_id": user.user_id,
+        "user_id": user.id,
         "role": user.role,
         "email": user.email,
-        "firstname": user.firstname
+        "first_name": user.first_name
     }
     return create_token(data, expires_delta, SECRET_KEY)
 
@@ -79,10 +79,10 @@ def create_refresh_token(user: User, expires_delta: timedelta | None = None) -> 
 
     data = {
         "sub": user.username,
-        "user_id": user.user_id,
+        "user_id": user.id,
         "role": user.role,
         "email": user.email,
-        "firstname": user.firstname
+        "first_name": user.first_name
     }
     return create_token(data, expires_delta, REFRESH_SECRET_KEY)
 
@@ -94,7 +94,7 @@ def authenticate_user(username: str, password: str, db: Session) -> User | None:
     - Yanlışsa None döner.
     """
     user = db.query(User).filter(User.username == username).first()
-    if not user or not verify_password(password, user.password_hash):
+    if not user or not verify_password(password, user.hashed_password):
         return None
     return user
 
@@ -127,7 +127,7 @@ def verify_refresh_token(token: str) -> dict:
 
 def authenticate_user(username: str, password: str, db: Session):
     user = db.query(User).filter(User.username == username).first()
-    if not user or not bcrypt_context.verify(password, user.password_hash):
+    if not user or not bcrypt_context.verify(password, user.hashed_password):
         return None
     return user
 
@@ -136,7 +136,7 @@ def get_current_user(token: str = Depends(oauth_bearer)):
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         return {
             "username": payload.get("sub"),
-            "user_id": payload.get("user_id"),
+            "user_id": payload.get("user.id"),
             "role": payload.get("role")
         }
     except JWTError:
