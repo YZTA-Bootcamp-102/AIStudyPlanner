@@ -1,0 +1,36 @@
+# 1) Build aşaması: bağımlılıkları yükleyip sadece runtime dosyaları çıkarılır
+FROM python:3.13-slim AS builder
+
+WORKDIR /app
+
+# cache avantajı için sadece requirements.txt kopyalanıyor
+COPY requirements.txt ./
+
+# hızlı kurulum ve cache temizliği
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
+
+# 2) Runtime aşaması: final minimal imaj
+FROM python:3.13-slim
+
+WORKDIR /app
+
+# Çevresel ayarlar
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    LOG_LEVEL=info
+
+# Sadece çalışması için gereken paketleri builder'dan kopyala
+COPY --from=builder /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
+
+# Uygulama kodunu kopyala
+COPY . .
+
+# Uygulama portu (docker run -p yapılacaksa)
+EXPOSE 8000
+
+# non-root kullanıcı ekleme güvenlik için
+RUN adduser --disabled-password appuser
+USER appuser
+
+# Başlatma komutu
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers"]

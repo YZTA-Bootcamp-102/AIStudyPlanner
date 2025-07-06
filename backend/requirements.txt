@@ -19,3 +19,6 @@ langchain-google-genai==1.0.10
 markdown==3.7
 bs4==0.0.2
 alembic==1.13.2
+google-api-python-client>=2.176.0
+google-auth-oauthlib>=1.2.2
+google-auth-httplib2>=0.2.0

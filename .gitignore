@@ -1,12 +1,6 @@
-# MacOS system files
-.DS_Store
-._.DS_Store
-._*
-
-# Dependencies
-node_modules/
+# Ortak .env dosyasını gizle
 .env
-
-# Build files
-dist/
-build/ 
+# VSCode ortam değişkenleri
+.env.*.local
+# Diğer yaygın ortam dosyaları
+dotenv
