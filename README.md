@@ -1,13 +1,13 @@
 
 <p align="center">
-  <img src="./FocusFlowLogo.jpg" alt="FocusFlow Logo" width="400"/>
+  <img src="./ProjectFiles/FocusFlowLogo.jpg" alt="FocusFlow Logo" width="400"/>
 </p>
 
 # FocusFlow
 
 Yapay zeka destekli **öğrenme planlayıcınız**: Hedeflerinize uygun, akıllı ve kişiselleştirilmiş bir eğitim deneyimi.
 
-**Proje Tüzüğü:** [Proje Tüzüğü (PDF)](./FocusFlowProjeTüzüğü.pdf)
+**Proje Tüzüğü:** [Proje Tüzüğü (PDF)](./ProjectFiles/FocusFlowProjeTüzüğü.pdf)
 
 ---
 
