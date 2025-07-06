@@ -1,0 +1,6 @@
+# Ortak .env dosyasını gizle
+.env
+# VSCode ortam değişkenleri
+.env.*.local
+# Diğer yaygın ortam dosyaları
+dotenv
