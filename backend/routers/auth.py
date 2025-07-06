@@ -1,96 +1,131 @@
-from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
-from typing import Annotated
+from datetime import timedelta
+from fastapi import APIRouter, Depends, HTTPException, Form
+from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from starlette import status
-from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
-from backend.database import SessionLocal
-from backend.models import User
-import os
-from passlib.context import CryptContext
 from jose import jwt, JWTError
-from datetime import timedelta, datetime, timezone
-from dotenv import load_dotenv
+from backend.services.auth_service import (
+    authenticate_user, create_access_token, create_refresh_token,
+    verify_access_token, verify_refresh_token, get_password_hash
+)
+from backend.database import get_db
+from backend.models import User
+from types import SimpleNamespace
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
-load_dotenv()
-SECRET_KEY = os.getenv("SECRET_KEY", "defaultsecret")
-REFRESH_SECRET_KEY = os.getenv("REFRESH_SECRET_KEY", "refreshsecret")
-ALGORITHM = os.getenv("ALGORITHM", "HS256")
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-db_dependency = Annotated[Session, Depends(get_db)]
-bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_bearer = OAuth2PasswordBearer(tokenUrl="/auth/token")
-
-class CreateUserRequest(BaseModel):
-    username: str
-    email: str
-    first_name: str
-    last_name: str
-    password: str
-    role: str
-    phone_number: str
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
-def create_access_token(username: str, user_id: int, role: str, expires_delta: timedelta):
-    payload = {'sub': username, 'id': user_id, 'role': role}
-    expires = datetime.now(timezone.utc) + expires_delta
-    payload.update({'exp': expires})
-    return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
-
-def authenticate_user(username: str, password: str, db):
-    user = db.query(User).filter(User.username == username).first()
-    if not user:
-        return False
-    if not bcrypt_context.verify(password, user.hashed_password):
-        return False
-    return user
-
-async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username = payload.get('sub')
-        user_id = payload.get('id')
-        user_role = payload.get('role')
-        if username is None or user_id is None:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Username or ID is invalid")
-        return {'username': username, 'id': user_id, 'user_role': user_role}
-    except JWTError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token is invalid")
-
+# Yeni kullanıcı kaydı
 @router.post("/", status_code=status.HTTP_201_CREATED)
-async def create_user(db: db_dependency, create_user_request: CreateUserRequest):
+def register_user(
+    first_name: str = Form(...),
+    last_name: str = Form(...),
+    username: str = Form(...),
+    email: str = Form(...),
+    password: str = Form(...),
+    role: str = Form(...),
+    phone_number: str | None = Form(None),
+    db: Session = Depends(get_db)
+):
+    """
+    Yeni kullanıcı kaydı yapar.
+    - Aynı kullanıcı adı veya email varsa hata verir.
+    """
+    if db.query(User).filter(User.username == username).first():
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, "Username already exists")
+    if db.query(User).filter(User.email == email).first():
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, "Email already exists")
+
+    # Kullanıcı nesnesi oluşturuluyor
     user = User(
-        username=create_user_request.username,
-        email=create_user_request.email,
-        first_name=create_user_request.first_name,
-        last_name=create_user_request.last_name,
-        role=create_user_request.role,
+        first_name=first_name,
+        last_name=last_name,
+        username=username,
+        email=email,
+        phone_number=phone_number,
+        role=role,
         is_active=True,
-        hashed_password=bcrypt_context.hash(create_user_request.password),
-        phone_number=create_user_request.phone_number
+        hashed_password=get_password_hash(password)
     )
+
     db.add(user)
     db.commit()
+    db.refresh(user)
+    return {"user_id": user.id, "email": user.email}
 
-@router.post("/token", response_model=Token)
-async def login_for_access_token(
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-    db: db_dependency
+
+# Giriş yapıp access/refresh token alma
+@router.post("/token", response_model=dict)
+def login_user(
+    username: str = Form(...),
+    password: str = Form(...),
+    remember_me: bool = Form(False),
+    db: Session = Depends(get_db)
 ):
-    user = authenticate_user(form_data.username, form_data.password, db)
+    """
+    Kullanıcı giriş yapar.
+    - Şifre doğrulanır.
+    - Access ve refresh token döner.
+    """
+    user = authenticate_user(username, password, db)
     if not user:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect username or password")
-    token = create_access_token(user.username, user.id, user.role, timedelta(minutes=60))
-    return {"access_token": token, "token_type": "bearer"}
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Incorrect username or password")
+
+    access_delta = timedelta(days=7) if remember_me else timedelta(minutes=60)
+    refresh_delta = timedelta(days=30) if remember_me else timedelta(days=7)
+
+    return {
+        "access_token": create_access_token(user, expires_delta=access_delta),
+        "refresh_token": create_refresh_token(user, expires_delta=refresh_delta),
+        "token_type": "bearer"
+    }
+
+
+# Refresh token ile yeni access token alma
+@router.post("/refresh", response_model=dict)
+def refresh_token(refresh_token: str = Form(...)):
+    """
+    Refresh token ile yeni access token üretir.
+    - Refresh token doğrulanır.
+    """
+    payload = verify_refresh_token(refresh_token)
+
+    # Burada kullanıcıyı tekrar DB'den çekmek gerekebilir.
+    dummy_user = SimpleNamespace(
+        username=payload["sub"],
+        id=payload["user_id"],
+        role=payload["role"],
+        email=payload["email"],
+        first_name=payload["first_name"]
+    )
+
+    new_access = create_access_token(dummy_user, timedelta(minutes=60))
+
+    return {
+        "access_token": new_access,
+        "refresh_token": refresh_token,
+        "token_type": "bearer"
+    }
+
+
+# Access token ile oturum açmış kullanıcının bilgilerini getirir
+@router.get("/me")
+def get_me(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    """
+    Geçerli access token'dan kullanıcı bilgisi getirir.
+    """
+    payload = verify_access_token(token)
+    user = db.query(User).filter(User.id == payload["user_id"]).first()
+    if not user:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "User not found")
+    return {
+        "user_id": user.id,
+        "firstname": user.first_name,
+        "lastname": user.last_name,
+        "username": user.username,
+        "email": user.email,
+        "phone_number": user.phone_number,
+        "role": user.role,
+        "is_active": user.is_active
+    }
+
