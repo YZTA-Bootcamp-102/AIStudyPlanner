@@ -1,7 +1,11 @@
 from backend.database import Base
 from sqlalchemy import Column, Boolean, Integer, String, Text, ForeignKey, DateTime
+from datetime import datetime, timedelta, timezone
+from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 
+def default_expiry():
+    return datetime.now(timezone.utc) + timedelta(hours=1)
 class User(Base):
     """
     Sistemdeki kullanıcıları temsil eder.
@@ -18,7 +22,11 @@ class User(Base):
     hashed_password = Column(String)  # Şifrelenmiş parola
     is_active = Column(Boolean, default=True)  # Hesap aktif mi?
     role = Column(String)  # Kullanıcının rolü (örneğin 'öğrenci', 'eğitmen')
+    reset_code = Column(String, nullable=True)
+    reset_code_expiry = Column(DateTime(timezone=True), default=default_expiry, nullable=True)
     phone_number = Column(String)  # İsteğe bağlı telefon numarası
+    created_at = Column(DateTime, default=func.current_timestamp())
+    updated_at = Column(DateTime, default=func.current_timestamp(), onupdate=func.current_timestamp())
 
     # İlişkiler
     learning_modules = relationship("LearningModule", back_populates="user")  # Kullanıcının eğitim modülleri
