@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState, useEffect } from 'react';
 import { Sun, Moon } from 'lucide-react';
 
@@ -26,6 +27,24 @@ const ThemeToggle = () => {
         <Sun className="w-5 h-5" />
       ) : (
         <Moon className="w-5 h-5" />
+=======
+import { Moon, Sun } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
+
+const ThemeToggle = () => {
+  const { theme, toggleTheme } = useTheme();
+
+  return (
+    <button
+      onClick={toggleTheme}
+      className="p-2 rounded-lg text-gray-500 hover:text-orange-500 hover:bg-orange-50 dark:text-gray-400 dark:hover:text-orange-400 dark:hover:bg-orange-900/20 transition-colors"
+      title={theme === 'light' ? 'Karanlık moda geç' : 'Aydınlık moda geç'}
+    >
+      {theme === 'light' ? (
+        <Moon size={20} />
+      ) : (
+        <Sun size={20} />
+>>>>>>> 4577c2aa087f97e10b63df66ef2af811e62c3090
       )}
     </button>
   );

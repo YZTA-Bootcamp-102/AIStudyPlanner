@@ -1,5 +1,9 @@
 import { Link, useLocation } from 'react-router-dom';
+<<<<<<< HEAD
 import { Bot, Calendar, Home, ListTodo } from 'lucide-react';
+=======
+import { Bot, Calendar, Home, ListTodo, Target } from 'lucide-react';
+>>>>>>> 4577c2aa087f97e10b63df66ef2af811e62c3090
 import ThemeToggle from './ThemeToggle';
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
@@ -20,6 +24,10 @@ const Header = () => {
     { path: '/', icon: Home, label: 'Ana Sayfa' },
     { path: '/calendar', icon: Calendar, label: 'Takvim' },
     { path: '/tasks', icon: ListTodo, label: 'Görevler' },
+<<<<<<< HEAD
+=======
+    { path: '/goals', icon: Target, label: 'Hedefler' },
+>>>>>>> 4577c2aa087f97e10b63df66ef2af811e62c3090
     { path: '/ai-assistant', icon: Bot, label: 'AI Asistan' }
   ] : [];
 
@@ -48,10 +56,17 @@ const Header = () => {
             className="relative group flex items-center space-x-1"
           >
             <span className="text-3xl font-black bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 dark:from-white dark:via-gray-200 dark:to-white bg-clip-text text-transparent">
+<<<<<<< HEAD
               AI
             </span>
             <div className="relative">
               <span className="text-3xl font-black text-orange-500">Planner</span>
+=======
+              Focus
+            </span>
+            <div className="relative">
+              <span className="text-3xl font-black text-orange-500">Flow</span>
+>>>>>>> 4577c2aa087f97e10b63df66ef2af811e62c3090
               <div className="absolute -bottom-2 left-0 w-full h-1 bg-orange-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
             </div>
           </Link>

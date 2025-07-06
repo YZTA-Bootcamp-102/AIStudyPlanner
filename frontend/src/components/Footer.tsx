@@ -19,9 +19,15 @@ const Footer = () => {
             className="flex items-center space-x-1"
           >
             <span className="text-2xl font-black bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 dark:from-white dark:via-gray-200 dark:to-white bg-clip-text text-transparent">
+<<<<<<< HEAD
               AI
             </span>
             <span className="text-2xl font-black text-orange-500">Planner</span>
+=======
+              Focus
+            </span>
+            <span className="text-2xl font-black text-orange-500">Flow</span>
+>>>>>>> 4577c2aa087f97e10b63df66ef2af811e62c3090
           </Link>
 
           {/* GitHub Link */}
@@ -40,7 +46,11 @@ const Footer = () => {
           {/* Copyright */}
           <div className="text-center space-y-2">
             <p className="text-gray-600 dark:text-gray-400 text-sm">
+<<<<<<< HEAD
               © {currentYear} AIPlanner. Bu proje YZTA Bootcamp kapsamında geliştirilmiştir.
+=======
+              © {currentYear} FocusFlow. Bu proje YZTA Bootcamp kapsamında geliştirilmiştir.
+>>>>>>> 4577c2aa087f97e10b63df66ef2af811e62c3090
             </p>
             <div className="flex items-center justify-center space-x-4">
               <Link to="/privacy" className="text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 dark:hover:text-orange-400 transition-colors">

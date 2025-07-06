@@ -1,0 +1,12 @@
+# MacOS system files
+.DS_Store
+._.DS_Store
+._*
+
+# Dependencies
+node_modules/
+.env
+
+# Build files
+dist/
+build/ 
