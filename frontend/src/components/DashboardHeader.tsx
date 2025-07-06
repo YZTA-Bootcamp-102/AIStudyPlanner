@@ -1,11 +1,22 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+<<<<<<< HEAD
 import { Calendar, CheckSquare, Home, LogOut, Settings, User, Menu, X, Bot, ListTodo, Sun, Moon } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import ThemeToggle from './ThemeToggle';
+=======
+import { Calendar, CheckSquare, Home, LogOut, Settings, User, Menu, X, Bot, ListTodo, Sun, Moon, Target } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import ThemeToggle from './ThemeToggle';
+import { useAuth } from '../contexts/AuthContext';
+>>>>>>> 4577c2aa087f97e10b63df66ef2af811e62c3090
 
 const DashboardHeader = () => {
   const navigate = useNavigate();
   const location = useLocation();
+<<<<<<< HEAD
+=======
+  const { logout } = useAuth();
+>>>>>>> 4577c2aa087f97e10b63df66ef2af811e62c3090
   const userName = "Admin"; // Bu kısım auth sisteminden gelecek
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -18,7 +29,12 @@ const DashboardHeader = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = () => {
+<<<<<<< HEAD
     navigate('/');
+=======
+    logout();
+    navigate('/login');
+>>>>>>> 4577c2aa087f97e10b63df66ef2af811e62c3090
   };
 
   const handleThemeToggle = () => {
@@ -42,11 +58,20 @@ const DashboardHeader = () => {
 
   const isActivePath = (path: string) => location.pathname === path;
 
+<<<<<<< HEAD
   const navItems = [
     { path: '/dashboard', icon: Home, label: 'Gösterge Paneli' },
     { path: '/tasks', icon: ListTodo, label: 'Görevler' },
     { path: '/calendar', icon: Calendar, label: 'Takvim' },
     { path: '/ai-assistant', icon: Bot, label: 'AI Asistan' },
+=======
+  const menuItems = [
+    { path: '/dashboard', icon: Home, label: 'Ana Sayfa' },
+    { path: '/calendar', icon: Calendar, label: 'Takvim' },
+    { path: '/tasks', icon: ListTodo, label: 'Görevler' },
+    { path: '/goals', icon: Target, label: 'Hedefler' },
+    { path: '/ai-assistant', icon: Bot, label: 'AI Asistan' }
+>>>>>>> 4577c2aa087f97e10b63df66ef2af811e62c3090
   ];
 
   return (
@@ -61,12 +86,20 @@ const DashboardHeader = () => {
             >
               <div className="relative">
                 <span className="text-3xl font-black bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 dark:from-white dark:via-gray-200 dark:to-white bg-clip-text text-transparent">
+<<<<<<< HEAD
                   AI
+=======
+                  Focus
+>>>>>>> 4577c2aa087f97e10b63df66ef2af811e62c3090
                 </span>
               </div>
               <div className="relative">
                 <span className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600">
+<<<<<<< HEAD
                   Planner
+=======
+                  Flow
+>>>>>>> 4577c2aa087f97e10b63df66ef2af811e62c3090
                 </span>
                 <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-orange-500 to-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
               </div>
@@ -74,6 +107,7 @@ const DashboardHeader = () => {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-1">
+<<<<<<< HEAD
               <Link
                 to="/dashboard"
                 className={`relative px-4 py-2 rounded-xl transition-all duration-200 group ${
@@ -142,6 +176,28 @@ const DashboardHeader = () => {
                 )}
                 <div className="absolute inset-0 rounded-xl bg-orange-500/10 dark:bg-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
               </Link>
+=======
+              {menuItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`relative px-4 py-2 rounded-xl transition-all duration-200 group ${
+                    isActivePath(item.path)
+                      ? 'text-orange-500 dark:text-orange-400'
+                      : 'text-gray-600 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400'
+                  }`}
+                >
+                  <span className="flex items-center space-x-2">
+                    <item.icon size={18} />
+                    <span className="font-medium">{item.label}</span>
+                  </span>
+                  {isActivePath(item.path) && (
+                    <div className="absolute inset-0 bg-orange-500/10 dark:bg-orange-500/20 rounded-xl"></div>
+                  )}
+                  <div className="absolute inset-0 rounded-xl bg-orange-500/10 dark:bg-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                </Link>
+              ))}
+>>>>>>> 4577c2aa087f97e10b63df66ef2af811e62c3090
 
               <div className="pl-4 flex items-center space-x-3 ml-4 border-l border-gray-200 dark:border-gray-700">
                 {/* User Profile Button */}
@@ -241,6 +297,7 @@ const DashboardHeader = () => {
         <div className="md:hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50">
           <div className="container mx-auto px-4 py-4">
             <nav className="flex flex-col space-y-2">
+<<<<<<< HEAD
               <Link
                 to="/dashboard"
                 className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl transition-all duration-200 ${
@@ -289,6 +346,23 @@ const DashboardHeader = () => {
                 <Bot size={18} />
                 <span className="font-medium">AI Asistan</span>
               </Link>
+=======
+              {menuItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl transition-all duration-200 ${
+                    isActivePath(item.path)
+                      ? 'bg-orange-50 dark:bg-orange-900/10 text-orange-500'
+                      : 'text-gray-600 dark:text-gray-300 hover:bg-orange-50 dark:hover:bg-orange-900/10'
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <item.icon size={18} />
+                  <span className="font-medium">{item.label}</span>
+                </Link>
+              ))}
+>>>>>>> 4577c2aa087f97e10b63df66ef2af811e62c3090
               <div className="flex items-center justify-between pt-4 mt-2 border-t border-gray-200 dark:border-gray-700">
                 <ThemeToggle />
                 <button

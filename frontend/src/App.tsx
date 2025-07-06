@@ -10,6 +10,13 @@ import TasksPage from './pages/tasks/TasksPage';
 import AIAssistantPage from './pages/ai-assistant/AIAssistantPage';
 import Footer from './components/Footer';
 import { useEffect } from 'react';
+<<<<<<< HEAD
+=======
+import GoalsPage from './pages/goals/GoalsPage';
+import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+import ProtectedRoute from './components/ProtectedRoute';
+>>>>>>> 4577c2aa087f97e10b63df66ef2af811e62c3090
 
 // ScrollToTop component to scroll to top on route change
 function ScrollToTop() {
@@ -26,7 +33,12 @@ const AppContent = () => {
     location.pathname.startsWith('/calendar') ||
     location.pathname.startsWith('/tasks') ||
     location.pathname.startsWith('/settings') ||
+<<<<<<< HEAD
     location.pathname.startsWith('/ai-assistant');
+=======
+    location.pathname.startsWith('/ai-assistant') ||
+    location.pathname.startsWith('/goals');
+>>>>>>> 4577c2aa087f97e10b63df66ef2af811e62c3090
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
@@ -37,10 +49,38 @@ const AppContent = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+<<<<<<< HEAD
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/tasks" element={<TasksPage />} />
           <Route path="/ai-assistant" element={<AIAssistantPage />} />
+=======
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/calendar" element={
+            <ProtectedRoute>
+              <CalendarPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/tasks" element={
+            <ProtectedRoute>
+              <TasksPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/goals" element={
+            <ProtectedRoute>
+              <GoalsPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/ai-assistant" element={
+            <ProtectedRoute>
+              <AIAssistantPage />
+            </ProtectedRoute>
+          } />
+>>>>>>> 4577c2aa087f97e10b63df66ef2af811e62c3090
         </Routes>
       </main>
       <Footer />
@@ -51,7 +91,15 @@ const AppContent = () => {
 const App = () => {
   return (
     <Router>
+<<<<<<< HEAD
       <AppContent />
+=======
+      <ThemeProvider>
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
+      </ThemeProvider>
+>>>>>>> 4577c2aa087f97e10b63df66ef2af811e62c3090
     </Router>
   );
 };
