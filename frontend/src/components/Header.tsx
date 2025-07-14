@@ -53,7 +53,7 @@ const Header = () => {
             </span>
             <div className="relative">
               <span className="text-3xl font-black text-orange-500">Flow</span>
-              <div className="absolute -bottom-2 left-0 w-full h-1 bg-orange-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+              <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-orange-500 to-orange-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
             </div>
           </Link>
 

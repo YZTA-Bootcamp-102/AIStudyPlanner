@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import Header from './components/Header';
 import DashboardHeader from './components/DashboardHeader';
 import HomePage from './pages/home/HomePage';
@@ -14,6 +15,9 @@ import GoalsPage from './pages/goals/GoalsPage';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import PrivacyPolicy from './pages/legal/PrivacyPolicy';
+import TermsOfService from './pages/legal/TermsOfService';
+import { useAuth } from './contexts/AuthContext';
 
 // ScrollToTop component to scroll to top on route change
 function ScrollToTop() {
@@ -26,6 +30,7 @@ function ScrollToTop() {
 
 const AppContent = () => {
   const location = useLocation();
+  const { isAuthenticated } = useAuth();
   const isDashboardRoute = location.pathname.startsWith('/dashboard') ||
     location.pathname.startsWith('/calendar') ||
     location.pathname.startsWith('/tasks') ||
@@ -36,12 +41,14 @@ const AppContent = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
       <ScrollToTop />
-      {isDashboardRoute ? <DashboardHeader /> : <Header />}
+      {isAuthenticated && isDashboardRoute ? <DashboardHeader /> : <Header />}
       <main className="flex-1">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
           <Route path="/dashboard" element={
             <ProtectedRoute>
               <DashboardPage />
@@ -77,11 +84,13 @@ const AppContent = () => {
 const App = () => {
   return (
     <Router>
-      <ThemeProvider>
-        <AuthProvider>
-          <AppContent />
-        </AuthProvider>
-      </ThemeProvider>
+      <HelmetProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <AppContent />
+          </AuthProvider>
+        </ThemeProvider>
+      </HelmetProvider>
     </Router>
   );
 };

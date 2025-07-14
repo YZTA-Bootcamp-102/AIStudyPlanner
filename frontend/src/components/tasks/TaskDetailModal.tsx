@@ -245,7 +245,7 @@ const TaskDetailModal = ({ isOpen, onClose, task = initialTask, onSave, onDelete
               <input
                 value={form.title}
                 onChange={e => handleChange('title', e.target.value)}
-                className="font-bold text-2xl bg-transparent hover:bg-white dark:hover:bg-gray-800 px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-colors"
+                className="font-bold text-2xl bg-transparent hover:bg-white dark:hover:bg-gray-800 text-gray-900 dark:text-white px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-colors"
                 placeholder="Başlık"
               />
             </div>
@@ -321,8 +321,8 @@ const TaskDetailModal = ({ isOpen, onClose, task = initialTask, onSave, onDelete
                         newSubtasks[i] = { ...s, text: e.target.value };
                         handleChange('subtasks', newSubtasks);
                       }}
-                      className={`flex-1 bg-transparent focus:outline-none ${
-                        s.done ? 'line-through text-gray-400' : ''
+                      className={`flex-1 bg-transparent focus:outline-none text-gray-900 dark:text-white ${
+                        s.done ? 'line-through text-gray-400 dark:text-gray-500' : ''
                       }`}
                     />
                     <button
@@ -338,7 +338,7 @@ const TaskDetailModal = ({ isOpen, onClose, task = initialTask, onSave, onDelete
                     value={newSubtask}
                     onChange={e => setNewSubtask(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && handleAddSubtask()}
-                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700/50 text-gray-700 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all"
+                    className="w-full pl-12 pr-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700/50 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all"
                     placeholder="Yeni alt görev ekle..."
                   />
                   <button
@@ -708,7 +708,7 @@ const TaskDetailModal = ({ isOpen, onClose, task = initialTask, onSave, onDelete
                   onChange={e => setNewTag(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && handleAddTag()}
                   placeholder="Yeni etiket..."
-                  className="pl-3 pr-8 py-1.5 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 hover:border-orange-500 transition-colors"
+                  className="pl-3 pr-8 py-1.5 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 hover:border-orange-500 transition-colors"
                 />
                 <button
                   onClick={handleAddTag}

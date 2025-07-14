@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';
 import 'react-calendar/dist/Calendar.css';
 import DashboardHeader from '../../components/DashboardHeader';
+import { Helmet } from 'react-helmet-async';
 
 // Lazy load all dashboard widgets
 const StatsSection = lazy(() => import('../../components/dashboard/Stats/StatsSection'));
@@ -401,40 +402,46 @@ const DashboardPage = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-20">
-      <div className="container mx-auto px-4 py-8">
-        <DashboardHeader />
-        
-        <Suspense fallback={<StatsSkeleton />}>
-          <StatsSection dailyStats={dailyStats} />
-        </Suspense>
+    <>
+      <Helmet>
+        <title>Dashboard | FocusFlow</title>
+        <meta name="description" content="FocusFlow dashboard'ınızda çalışma planınızı görüntüleyin, hedeflerinizi takip edin ve yapay zeka asistanınızla iletişime geçin." />
+      </Helmet>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-20">
+        <div className="container mx-auto px-4 py-8">
+          <DashboardHeader />
+          
+          <Suspense fallback={<StatsSkeleton />}>
+            <StatsSection dailyStats={dailyStats} />
+          </Suspense>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Sol Sütun - Tasks & AI Chat */}
-          <div className="lg:col-span-2 space-y-6">
-            <Suspense fallback={<QuickActionsSkeleton />}>
-              <QuickActionsSection />
-            </Suspense>
-            <Suspense fallback={<TaskSkeleton />}>
-              <TasksSection tasks={todaysTasks} onTaskToggle={handleTaskToggle} />
-            </Suspense>
-            <Suspense fallback={<AIChatSkeleton />}>
-              <AIChatSection />
-            </Suspense>
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Sol Sütun - Tasks & AI Chat */}
+            <div className="lg:col-span-2 space-y-6">
+              <Suspense fallback={<QuickActionsSkeleton />}>
+                <QuickActionsSection />
+              </Suspense>
+              <Suspense fallback={<TaskSkeleton />}>
+                <TasksSection tasks={todaysTasks} onTaskToggle={handleTaskToggle} />
+              </Suspense>
+              <Suspense fallback={<AIChatSkeleton />}>
+                <AIChatSection />
+              </Suspense>
+            </div>
 
-          {/* Sağ Sütun - Calendar & Notes */}
-          <div className="space-y-6">
-            <Suspense fallback={<CalendarSkeleton />}>
-              <CalendarSection calendarData={calendarData} />
-            </Suspense>
-            <Suspense fallback={<NotesSkeleton />}>
-              <NotesSection initialNotes={initialNotes} />
-            </Suspense>
+            {/* Sağ Sütun - Calendar & Notes */}
+            <div className="space-y-6">
+              <Suspense fallback={<CalendarSkeleton />}>
+                <CalendarSection calendarData={calendarData} />
+              </Suspense>
+              <Suspense fallback={<NotesSkeleton />}>
+                <NotesSection initialNotes={initialNotes} />
+              </Suspense>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

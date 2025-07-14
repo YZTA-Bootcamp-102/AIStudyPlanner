@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Bot, Send, Calendar, ListTodo, Book, Target, Clock, Paperclip, Mic, X, ChevronDown, Image, Link as LinkIcon, Sparkles, Eraser, History, Settings2, Loader2, Upload } from 'lucide-react';
 import DashboardHeader from '../../components/DashboardHeader';
+import { Helmet } from 'react-helmet-async';
 
 interface Message {
   id: string;
@@ -472,10 +473,20 @@ const AIAssistantPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
   };
+
+  useEffect(() => {
+    // Sayfa yüklendiğinde en yukarı scroll
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
@@ -543,187 +554,193 @@ const AIAssistantPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 pt-20">
-      <DashboardHeader />
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-white dark:bg-gray-800 rounded-3xl p-10 shadow-xl border border-gray-100 dark:border-gray-700 mb-10">
-          <div className="flex items-center space-x-6">
-            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center shadow-2xl">
-              <Bot size={36} className="text-white" />
-            </div>
-            <div>
-              <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-2 tracking-tight">
-                AI Asistan
-            </h1>
-              <p className="text-xl text-gray-500 dark:text-gray-400">
-                Kişisel eğitim asistanınız ile sohbet edin
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Suggestions Panel */}
-          <div className="lg:col-span-1 space-y-4">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                <Sparkles size={20} className="text-orange-500" />
-                Önerilen Şablonlar
-              </h3>
-              <div className="space-y-3">
-                {templates.map(template => (
-                  <button
-                    key={template.id}
-                    onClick={() => handleTemplateSelect(template)}
-                    className={`w-full flex items-center gap-3 p-4 rounded-xl ${template.color} ${template.darkColor} transition-all hover:scale-[1.02]`}
-                  >
-                    {template.icon}
-                    <span className="font-medium">{template.title}</span>
-                  </button>
-                ))}
+    <>
+      <Helmet>
+        <title>AI Asistan | FocusFlow</title>
+        <meta name="description" content="FocusFlow'un yapay zeka asistanı ile çalışmalarınızı optimize edin, sorularınıza yanıt alın ve daha verimli çalışın." />
+      </Helmet>
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 pt-20">
+        <DashboardHeader />
+        <div className="container mx-auto px-4 py-8">
+          <div className="bg-white dark:bg-gray-800 rounded-3xl p-10 shadow-xl border border-gray-100 dark:border-gray-700 mb-10">
+            <div className="flex items-center space-x-6">
+              <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center shadow-2xl">
+                <Bot size={36} className="text-white" />
+              </div>
+              <div>
+                <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-2 tracking-tight">
+                  AI Asistan
+                </h1>
+                <p className="text-xl text-gray-500 dark:text-gray-400">
+                  Kişisel eğitim asistanınız ile sohbet edin
+                </p>
               </div>
             </div>
+          </div>
 
-            {/* Template Form */}
-            {selectedTemplate && (
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
-                <div className={`p-6 bg-gradient-to-r from-orange-500 to-orange-600 dark:from-orange-600 dark:to-orange-700 rounded-t-2xl`}>
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
-                      <div className="text-white w-6 h-6 flex items-center justify-center">
-                        {selectedTemplate.icon}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Suggestions Panel */}
+            <div className="lg:col-span-1 space-y-4">
+              <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                  <Sparkles size={20} className="text-orange-500" />
+                  Önerilen Şablonlar
+                </h3>
+                <div className="space-y-3">
+                  {templates.map(template => (
+                    <button
+                      key={template.id}
+                      onClick={() => handleTemplateSelect(template)}
+                      className={`w-full flex items-center gap-3 p-4 rounded-xl ${template.color} ${template.darkColor} transition-all hover:scale-[1.02]`}
+                    >
+                      {template.icon}
+                      <span className="font-medium">{template.title}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Template Form */}
+              {selectedTemplate && (
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
+                  <div className={`p-6 bg-gradient-to-r from-orange-500 to-orange-600 dark:from-orange-600 dark:to-orange-700 rounded-t-2xl`}>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+                        <div className="text-white w-6 h-6 flex items-center justify-center">
+                          {selectedTemplate.icon}
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-semibold text-white mb-1">
+                          {selectedTemplate.title}
+                        </h3>
+                        <p className="text-sm text-white/80">
+                          {selectedTemplate.description}
+                        </p>
                       </div>
                     </div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-white mb-1">
-                        {selectedTemplate.title}
-                      </h3>
-                      <p className="text-sm text-white/80">
-                        {selectedTemplate.description}
-                      </p>
-                    </div>
+                  </div>
+                  <div className="p-6 space-y-4">
+                    {selectedTemplate.fields.map(field => (
+                      <div key={field.label}>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          {field.label}
+                        </label>
+                        {field.type === 'select' ? (
+                          <CustomSelect
+                            value={templateFields[field.label] || ''}
+                            onChange={(value) => handleTemplateFieldChange(field.label, value)}
+                            options={field.options || []}
+                            placeholder={field.placeholder}
+                            allowCustomInput={field.label.toLowerCase().includes('süre')}
+                          />
+                        ) : (
+                          <input
+                            type={field.type}
+                            value={templateFields[field.label] || ''}
+                            onChange={(e) => handleTemplateFieldChange(field.label, e.target.value)}
+                            placeholder={field.placeholder}
+                            className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all"
+                          />
+                        )}
+                      </div>
+                    ))}
+                    <button
+                      onClick={handleTemplateSubmit}
+                      className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:opacity-90 text-white rounded-xl py-3 px-4 transition-all shadow-lg shadow-orange-500/20"
+                    >
+                      Şablonu Kullan
+                    </button>
                   </div>
                 </div>
-                <div className="p-6 space-y-4">
-                  {selectedTemplate.fields.map(field => (
-                    <div key={field.label}>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        {field.label}
-                      </label>
-                      {field.type === 'select' ? (
-                        <CustomSelect
-                          value={templateFields[field.label] || ''}
-                          onChange={(value) => handleTemplateFieldChange(field.label, value)}
-                          options={field.options || []}
-                          placeholder={field.placeholder}
-                          allowCustomInput={field.label.toLowerCase().includes('süre')}
-                        />
-                      ) : (
-                        <input
-                          type={field.type}
-                          value={templateFields[field.label] || ''}
-                          onChange={(e) => handleTemplateFieldChange(field.label, e.target.value)}
-                          placeholder={field.placeholder}
-                          className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all"
-                        />
-                      )}
-                    </div>
-                  ))}
+              )}
+            </div>
+
+            {/* Chat Area */}
+            <div className="lg:col-span-3 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 flex flex-col overflow-hidden" style={{ height: 'calc(100vh - 400px)' }}>
+              {/* Chat Header */}
+              <div className="p-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center">
+                    <Bot size={20} className="text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">AI Asistan</h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Eğitim yolculuğunuzda size rehberlik ediyorum</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
                   <button
-                    onClick={handleTemplateSubmit}
-                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:opacity-90 text-white rounded-xl py-3 px-4 transition-all shadow-lg shadow-orange-500/20"
+                    onClick={handleClearChat}
+                    className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                    title="Sohbeti Temizle"
                   >
-                    Şablonu Kullan
+                    <Eraser size={20} />
                   </button>
                 </div>
               </div>
-            )}
-          </div>
 
-          {/* Chat Area */}
-          <div className="lg:col-span-3 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 flex flex-col" style={{ height: 'calc(100vh - 400px)' }}>
-            {/* Chat Header */}
-            <div className="p-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center">
-                  <Bot size={20} className="text-white" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white">AI Asistan</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Eğitim yolculuğunuzda size rehberlik ediyorum</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={handleClearChat}
-                  className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                  title="Sohbeti Temizle"
-                >
-                  <Eraser size={20} />
-                </button>
-              </div>
-            </div>
-
-            {/* Chat Messages */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-6">
-              {messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`flex items-start gap-4 ${msg.sender === 'ai' ? '' : 'flex-row-reverse'}`}
-                >
-                  {msg.sender === 'ai' ? (
-                    <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center shadow-lg">
-                      <Bot size={24} className="text-white" />
-                    </div>
-                  ) : (
-                    <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg">
-                      <div className="text-lg font-semibold text-white">U</div>
-                    </div>
-                  )}
+              {/* Chat Messages */}
+              <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-6 space-y-6">
+                {messages.map((msg) => (
                   <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                      msg.sender === 'ai'
-                        ? 'bg-gray-100 dark:bg-gray-700'
-                        : 'bg-gradient-to-r from-orange-500 to-orange-600 text-white'
-                    }`}
+                    key={msg.id}
+                    className={`flex items-start gap-4 ${msg.sender === 'ai' ? '' : 'flex-row-reverse'}`}
                   >
-                    <div className="prose dark:prose-invert max-w-none">
-                      <p className="whitespace-pre-wrap">{msg.content}</p>
-                    </div>
-                    <div className="mt-1 text-xs opacity-50">
-                      {new Date(msg.timestamp).toLocaleTimeString()}
+                    {msg.sender === 'ai' ? (
+                      <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center shadow-lg">
+                        <Bot size={24} className="text-white" />
+                      </div>
+                    ) : (
+                      <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg">
+                        <div className="text-lg font-semibold text-white">U</div>
+                      </div>
+                    )}
+                    <div
+                      className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                        msg.sender === 'ai'
+                          ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white'
+                          : 'bg-gradient-to-r from-orange-500 to-orange-600 text-white'
+                      }`}
+                    >
+                      <div className="prose dark:prose-invert max-w-none">
+                        <p className="whitespace-pre-wrap">{msg.content}</p>
+                      </div>
+                      <div className="mt-1 text-xs opacity-50">
+                        {new Date(msg.timestamp).toLocaleTimeString()}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-              <div ref={messagesEndRef} />
-            </div>
-
-            {/* Selected Files */}
-            {selectedFiles.length > 0 && (
-              <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
-                <div className="flex flex-wrap gap-2">
-                  {selectedFiles.map((file, index) => (
-                    <div key={index} className="flex items-center gap-2 bg-white dark:bg-gray-700 rounded-lg px-3 py-1">
-                      <span className="text-sm text-gray-600 dark:text-gray-300">{file.name}</span>
-                      <button
-                        onClick={() => handleRemoveFile(index)}
-                        className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
-                      >
-                        <X size={16} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
+                ))}
+                <div ref={messagesEndRef} />
               </div>
-            )}
 
-            {/* Message Input */}
-            <ChatInput message={message} setMessage={setMessage} />
+              {/* Selected Files */}
+              {selectedFiles.length > 0 && (
+                <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+                  <div className="flex flex-wrap gap-2">
+                    {selectedFiles.map((file, index) => (
+                      <div key={index} className="flex items-center gap-2 bg-white dark:bg-gray-700 rounded-lg px-3 py-1">
+                        <span className="text-sm text-gray-600 dark:text-gray-300">{file.name}</span>
+                        <button
+                          onClick={() => handleRemoveFile(index)}
+                          className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Message Input */}
+              <ChatInput message={message} setMessage={setMessage} />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
