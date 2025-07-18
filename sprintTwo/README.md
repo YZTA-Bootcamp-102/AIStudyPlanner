@@ -2,17 +2,17 @@
   <img src="./SprintOneFiles/FocusFlowLogo.jpg" alt="FocusFlow Logo" width="400"/>
 </p>
 
-# FocusFlow Sprint Raporu 1
+# FocusFlow Sprint Raporu 2
 
 ---
 
 
 
-**Sprint Tarihi:** 20.06.2025/06.07.2025 
+**Sprint Tarihi:** 07.07.2025/20.07.2025 
 
 **Kullanılan Araç:** **Trello** – [Trello Sprint Board](https://trello.com/b/rYb67cj1/kanban-template)  
 
-**Sprint Hedefi:** Bu sprintin birincil hedefi, FocusFlow'un temel mimari altyapısını oluşturmak, yapay zeka modül tasarımını tamamlamak ve kullanıcıların eğitim hedeflerini belirlemesine olanak tanıyan anahtar bileşeni geliştirmektir.
+**Sprint Hedefi:** 
 
 ---
 
@@ -25,7 +25,7 @@
 - [Ekran Görüntüleri](#ekran-görüntüleri)
 - [Sprint Review](#sprint-review)
 - [Sprint Retrospective](#sprint-retrospective)
-- [Sprint 2 Planı](#sprint-2-planı)
+- [Sprint 2 Planı](#sprint-3-planı)
 -----
 
 ### Sprint Notları
@@ -42,34 +42,37 @@ Sprint sürecinde görev kartlarının net biçimde ayrılması ve düzenli Scru
 
 | No    | Başlık                        | Açıklama                                                        | Öncelik | SP |
 |-------|-------------------------------|------------------------------------------------------------------|---------|----|
-| PB-01 | **AI Eğitim Modülü**          | **Kişiselleştirilmiş modül yapısını AI ile oluşturma**              | Yüksek  | **8**  |
-| PB-02 | Günlük Görev Planlayıcı   | AI destekli kullanıcı bazlı günlük planlama motoru              | Yüksek  | 5  |
-| PB-03 | Takvim Entegrasyonu           | Google Calendar API ile entegrasyon                             | Orta    | 3  |
-| PB-04 | Görev Hatırlatma Servisi      | E-posta ve bildirim sistemiyle hatırlatma                       | Orta    | 5  |
-| PB-05 | İlerleme Ölçümü           | Görev tamamlama verilerine göre gelişim raporları               | Yüksek  | 8  |
+| PB-01 | AI Eğitim Modülü          | Kişiselleştirilmiş modül yapısını AI ile oluşturma              | Yüksek  | 8  |
+| PB-02 | **Günlük Görev Planlayıcı**   | **AI destekli kullanıcı bazlı günlük planlama motoru**              | Yüksek  | **5**  |
+| PB-03 | **Takvim Entegrasyonu**           | **Google Calendar API ile entegrasyon**                             | Orta    | **3**  |
+| PB-04 | **Görev Hatırlatma Servisi**      | **E-posta ve bildirim sistemiyle hatırlatma**                       | Orta    | **5**  |
+| PB-05 | **İlerleme Ölçümü**           | **Görev tamamlama verilerine göre gelişim raporları**               | Yüksek  | **8**  |
 | PB-06 | AI Çalışma İpuçları           | Kullanıcıya odak artırıcı öneriler                              | Orta    | 5  |
-| PB-07 | **Kullanıcı Paneli**          | **Arayüz, görev yönetimi ve ilerleme ekranı**                       | Yüksek  | **8**  |
+| PB-07 | Kullanıcı Paneli        | Arayüz, görev yönetimi ve ilerleme ekranı                       | Yüksek  | 8  |
 | PB-08 | Sprint Planlama Motoru        | 1 haftalık öğrenme sprintlerinin otomatik planlanması           | Yüksek  | 5  |
 | PB-09 | Haftalık Retrospektif         | AI ile sprint sonrası otomatik geri bildirim                    | Düşük   | 3  |
-| PB-10 | **Hedef Belirleyici**             | **AI ile kullanıcıdan hedef alıp öneri sunan yapı**                 | Orta    | **3**  |
+| PB-10 | Hedef Belirleyici             | AI ile kullanıcıdan hedef alıp öneri sunan yapı                 | Orta    | 3  |
 
-Toplam hedeflenen puan: **19 Puan**
+Toplam hedeflenen puan: **21 Puan**
 
 <details>
   <summary>Hedeflenen Backlog'lar</summary>
 
-   ### PB-01
+   ### PB-02
   ![PB-01](./SprintOneFiles/PB-01.png)
   
-  ### PB-07
+  ### PB-03
   ![PB-07](./SprintOneFiles/PB-07.png)
   
-  ### PB-10
+  ### PB-04
+  ![PB-10](./SprintOneFiles/PB-10.png)
+
+  ### PB-05
   ![PB-10](./SprintOneFiles/PB-10.png)
   
 </details>
 
-> Ekibin kapasitesine göre planlama yapıldı. Önceki denemelerden elde edilen velocity değerine göre 19 puan hedeflendi.
+> Ekibin kapasitesine göre planlama yapıldı. Önceki denemelerden elde edilen velocity değerine göre 21 puan hedeflendi.
 
 ---
 
@@ -99,48 +102,44 @@ Bu sprintte tamamlanan Ürün Backlog öğeleri ve bunların projeye katkıları
 
 | Blaclog ID | Başlık | Tahmini Efor |Durum |
 |----------|-------------|-------------|-------------|
-| PB-01 | AI Eğitim Modülü Tasarımı | 8 | Tamamlandı |
-| PB-07 | Kullanıcı Paneli | 8 | Tamamlandı |
-| PB-10 | Eğitim Hedefi Belirleyici | 3 | Tamamlandı |
-| **Toplam** | **19** |
+| PB-02 | Günlük Görev Planlayıcı | 5 | Tamamlandı |
+| PB-03 | Takvim Entegrasyonu | 3 | Tamamlandı |
+| PB-04 | Görev Hatırlatma Servisi | 5 | Tamamlandı |
+| PB-05 | İlerleme Ölçümü | 8 | Tamamlandı |
+| **Toplam** | **21** |
 
 ### Ekran Görüntüleri
 
 <details>
   <summary>Ekran Görüntüleri</summary>
 
-   ### Kayıt Sayfası
-  ![Kayıt Sayfası](./SprintOneFiles/kayit_sayfasi.png)
+   ### Etkinlik Ekleme Testi
+  ![Kayıt Sayfası](./SprintTwoFiles/create_event_test.png)
+
+  ### Etkinlik Ekleme Testi Sonucu Takvim
+  ![Kayıt Sayfası](./SprintTwoFiles/calender_create_event_test.png)
   
-  ### Giriş Sayfası
-  ![Giriş Sayfası](./SprintOneFiles/giris_sayfasi.png)
+  ### Etkinklik Düzenleme Testi
+  ![Kayıt Sayfası](./SprintTwoFiles/updated_event_test.png)
+
+  ### Etkinlik Düzenleme Testi Sonucu Takvim
+  ![Kayıt Sayfası](./SprintTwoFiles/calender_updated_event_test.png)
+
+  ### Etkinlik Listeleme Testi
+  ![Kayıt Sayfası](./SprintTwoFiles/event_list_test.png)
+
+  ### Etkinlik Listeleme Testi Sonucu Takvim
+  ![Kayıt Sayfası](./SprintTwoFiles/calender_event_list_test.png)
+
+  ### Etkinlik Silme Testi
+  ![Kayıt Sayfası](./SprintTwoFiles/event_delete_test.png)
+
+  ### Etkinlik Ekleme Testi Sonucu Takvim
+  ![Kayıt Sayfası](./SprintTwoFiles/calender_event_delete_test.png)
+
+ 
   
-  ### Ana Sayfa
-  ![Ana Sayfa](./SprintOneFiles/ana_sayfa.png)
-
-  ### Dashboard Ana Sayfa
-  ![Dashboard Ana Sayfa](./SprintOneFiles/dashboard_ana_sayfa.png)
-
-  ### AI Assistan
-  ![AI Assistan](./SprintOneFiles/ai_asistan.png)
-
-  ### Görevler Sayfası
-  ![Görevler Sayfası](./SprintOneFiles/gorevler_sayfasi.png)
-
-  ### Görev Düzenleme
-  ![Görev Düzenleme](./SprintOneFiles/gorev_duzenleme.jpg)
-
-  ### Görev Ekleme
-  ![Görev Ekleme](./SprintOneFiles/gorev_ekleme.png)
   
-  ### Örnek Önerilen Şablonlar
-  ![Örnek Önerilen Şablonlar](./SprintOneFiles/ornek_onerilen_sablonlar.png)
-
-  ### Veri Tabanı
-  ![Veri Tabanı](./SprintOneFiles/FocusFlow_Database_Schema.png)
-
-  ### Request
-  ![Request](./SprintOneFiles/request.jpeg.jpg)
 
   
 </details>
@@ -188,12 +187,11 @@ Bu sprintin sonunda, ekip olarak neleri iyi yaptığımızı, hangi zorluklarla 
 
 ---
 
-### Sprint 2 Planı
+### Sprint 3 Planı
 
-- **Hedefler:** Görev planlayıcı, takvim entegrasyonu ve öğrenme takibi fonksiyonlarının geliştirilmesi.
-- **Sprint 2 Backlogları:**
-  - **PB-02:** Günlük Görev Planlayıcısı
-  - **PB-03:** Takvim Entegrasyonu
-  - **PB-04:** Görev Hatırlatma Servisi
-  - **PB-05:** Öğrenme İlerlemesi Ölçümü
+- **Hedefler:** 
+- **Sprint 3 Backlogları:**
+  - **PB-:** 
+  - **PB-:** 
+  - **PB-:** 
 
