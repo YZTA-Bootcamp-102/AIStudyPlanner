@@ -2,3 +2,5 @@ __pycache__/
 .env
 *.sqlite3
 *.pyc
+client_secret.json
+token.json

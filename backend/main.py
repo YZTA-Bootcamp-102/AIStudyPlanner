@@ -1,10 +1,19 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from backend.database import engine
-from backend.models import Base
-from backend.routers.auth import router as auth_router
+from database import engine
+from models import Base
+from routers.auth import router as auth_router
+from routers.calendar import router as calendar_router
+from dotenv import load_dotenv
 
-app = FastAPI()
+load_dotenv()
+
+app = FastAPI(
+    title="AI Study Planner API",
+    version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc",
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -14,8 +23,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Router ekle
-app.include_router(auth_router)
+@app.get("/")
+async def root():
+    return {"message": "Hoşgeldiniz, API çalışıyor!"}
 
-# Veritabanı tablolarını oluştur
+app.include_router(auth_router)
+app.include_router(calendar_router)
+
 Base.metadata.create_all(bind=engine)

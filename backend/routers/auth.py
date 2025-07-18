@@ -4,8 +4,8 @@ from typing import Annotated
 from sqlalchemy.orm import Session
 from starlette import status
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
-from backend.database import SessionLocal
-from backend.models import User
+from database import SessionLocal
+from models import User 
 import os
 from passlib.context import CryptContext
 from jose import jwt, JWTError
@@ -19,6 +19,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", "defaultsecret")
 REFRESH_SECRET_KEY = os.getenv("REFRESH_SECRET_KEY", "refreshsecret")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 
+# Veritabanı oturumu alma fonksiyonu
 def get_db():
     db = SessionLocal()
     try:
@@ -30,6 +31,7 @@ db_dependency = Annotated[Session, Depends(get_db)]
 bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
+# Kullanıcı oluşturma modeli
 class CreateUserRequest(BaseModel):
     username: str
     email: str
@@ -39,16 +41,19 @@ class CreateUserRequest(BaseModel):
     role: str
     phone_number: str
 
+# Token modeli
 class Token(BaseModel):
     access_token: str
     token_type: str
 
+# Erişim tokenı oluşturma fonksiyonu
 def create_access_token(username: str, user_id: int, role: str, expires_delta: timedelta):
     payload = {'sub': username, 'id': user_id, 'role': role}
     expires = datetime.now(timezone.utc) + expires_delta
     payload.update({'exp': expires})
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
+# Kullanıcı doğrulama fonksiyonu
 def authenticate_user(username: str, password: str, db):
     user = db.query(User).filter(User.username == username).first()
     if not user:
@@ -57,6 +62,7 @@ def authenticate_user(username: str, password: str, db):
         return False
     return user
 
+# Yetkilendirme kontrol fonksiyonu
 async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
@@ -69,8 +75,16 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
     except JWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token is invalid")
 
+# Kullanıcı oluşturma endpoint'i
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dependency, create_user_request: CreateUserRequest):
+    existing_user = db.query(User).filter(
+        (User.username == create_user_request.username) | 
+        (User.email == create_user_request.email)
+    ).first()
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Username or email already exists")
+    
     user = User(
         username=create_user_request.username,
         email=create_user_request.email,
@@ -83,7 +97,20 @@ async def create_user(db: db_dependency, create_user_request: CreateUserRequest)
     )
     db.add(user)
     db.commit()
+    db.refresh(user)
 
+    return {
+        "id": user.id,
+        "username": user.username,
+        "email": user.email,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "role": user.role,
+        "phone_number": user.phone_number,
+        "is_active": user.is_active
+    }
+
+# Token alma endpoint'i
 @router.post("/token", response_model=Token)
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
