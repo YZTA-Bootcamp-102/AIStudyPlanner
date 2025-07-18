@@ -97,8 +97,8 @@ Kullanıcılar, günlük olarak AI tarafından oluşturulan planlara göre çal�
 
 | Sprint | Tarih Aralığı | Dosya Yolu |
 |--------|---------------|------------|
-| [Sprint 1](./SprintOne/README.md) |20.06 - 06.07 |`./bootcampFiles/sprintOne/` |
-| [Sprint 2](./SprintTwo/README.md) | 07.07 - 20.07 |`./bootcampFiles/sprintTwo/` |
+| [Sprint 1](./SprintOne/README.md/) |20.06 - 06.07 |`./bootcampFiles/sprintOne/` |
+| [Sprint 2](./SprintTwo/README.md/) | 07.07 - 20.07 |`./bootcampFiles/sprintTwo/` |
 | Sprint 3 |  | `./bootcampFiles/sprintThree/` |
 
 ---
