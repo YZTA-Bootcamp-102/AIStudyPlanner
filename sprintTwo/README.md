@@ -84,16 +84,16 @@ Toplam hedeflenen puan: **21 Puan**
   <summary>Hedeflenen Backlog'lar</summary>
 
    ### PB-02
-  ![PB-01](./SprintOneFiles/PB-01.png)
+  ![PB-01](./SprintTwoFiles/PB-02.png)
   
   ### PB-03
-  ![PB-07](./SprintOneFiles/PB-07.png)
+  ![PB-07](./SprintTwoFiles/PB-03.png)
   
   ### PB-04
-  ![PB-10](./SprintOneFiles/PB-10.png)
+  ![PB-10](./SprintTwoFiles/PB-04.png)
 
   ### PB-05
-  ![PB-10](./SprintOneFiles/PB-10.png)
+  ![PB-10](./SprintTwoFiles/PB-05.png)
   
 </details>
 
@@ -103,7 +103,7 @@ Toplam hedeflenen puan: **21 Puan**
 
 ### Tahmin Mantığı
 
-Bu sprintteki Story Point tahminlerimiz, bir önceki sprintteki deneyimlerimizden ve velocity değerlerimizden elde edilen derslerle daha da hassaslaştırılmıştır. Her bir backlog öğesinin göreceli karmaşıklığı, geliştirme eforu ve olası belirsizlikleri, takım üyelerinin uzmanlık alanları ve önceki sprintlerde karşılaşılan zorluklar göz önünde bulundurularak değerlendirildi. Özellikle ön uç ve arka uç entegrasyonlarının gerektireceği potansiyel ek iş yükü, tahminlere dahil edilmiştir. Takım içi tartışmalar ve teknik derinlemesine incelemeler sonucunda her task için konsensüsle Story Point'ler belirlenmiştir.
+Bu sprintteki Story Point tahminlerimiz, bir önceki sprintteki deneyimlerimizden ve velocity değerlerimizden elde edilen derslerle daha da hassaslaştırılmıştır. Her bir backlog öğesinin göreceli karmaşıklığı, geliştirme eforu ve olası belirsizlikleri, takım üyelerinin uzmanlık alanları ve önceki sprintlerde karşılaşılan zorluklar göz önünde bulundurularak değerlendirildi. Özellikle ön uç ve arka uç entegrasyonlarının gerektireceği potansiyel ek iş yükü, tahminlere dahil edilmiştir. Takım içi tartışmalar ve teknik derinlemesine incelemeler sonucunda her task için Story Point'ler belirlenmiştir.
 
 ---
 
@@ -111,13 +111,13 @@ Bu sprintteki Story Point tahminlerimiz, bir önceki sprintteki deneyimlerimizde
 
 | Tarih | Gelişme |
 |------|---------|
-| 08.07 | PB-02 (Günlük Görev Planlayıcısı) için temel CRUD fonksiyonlarının geliştirilmesine başlandı. PB-03 (Takvim Entegrasyonu) için Google Calendar API yapılandırması üzerinde çalışıldı. |
+| 08.07 | PB-05 (Öğrenme İlerlemesi Ölçümü) için temel fonksiyonlarının geliştirilmesine başlandı. PB-03 (Takvim Entegrasyonu) için Google Calendar API yapılandırması üzerinde çalışıldı. |
 | 10.07 | PB-02 için API uçlarının yazımı ilerledi. PB-04 (Görev Hatırlatma Servisi) için hatırlatma zamanlaması yapısı ve backend entegrasyonları başladı. |
 | 12.07 | PB-03'ün (Takvim Entegrasyonu) Google Takvim'e görev işleme fonksiyonu tamamlandı. PB-05 (Öğrenme İlerlemesi Ölçümü) için veri modeli güncellemeleri ve ilerleme oranı hesaplama servisi geliştirildi. |
 | 15.07 | Örnek Önerilen Şablonlar arayüzü entegre edildi. Veritabanı entegrasyonu için ilk adımlar atıldı. Ekip üyelerinin sınav haftası nedeniyle toplantı katılımında zorluklar yaşandı, alternatif iletişim kanalları düşünüldü. |
-| 02.07 | PB-01 (AI Eğitim Modülü Tasarımı) ve PB-10 (Eğitim Hedefi Belirleyici) üzerinde yoğunlaşıldı. AI modül tasarımının detayları netleştirildi. Geliştirilen arayüzlerdeki ufak hatalar giderildi. |
-| 05.07 | Sprint hedeflerine ulaşmak adına son kontroller yapıldı ve tamamlanan işler gözden geçirildi. PB-07 (Kullanıcı Paneli) ile ilgili son düzenlemeler yapıldı. Sprint Review ve Retrospective için hazırlıklara başlandı. |
-| 06.07 | Sprint tamamlandı. Tüm hedeflenen backlog maddelerinin (PB-01, PB-07, PB-10) tamamlandığı teyit edildi. Sprint Review ve Retrospective toplantıları gerçekleştirildi ve Sprint 2 planı oluşturuldu.|
+| 17.07 | PB-02 (Günlük Görev Planlayıcısı) üzerinde yoğunlaşıldı. Takvim tasarımının detayları netleştirildi. Geliştirilen arayüzlerdeki ufak hatalar giderildi. |
+| 19.07 | Sprint hedeflerine ulaşmak adına son kontroller yapıldı ve tamamlanan işler gözden geçirildi. Sprint Raporu 2 için ön hazırlıklar yapıldı. Takım içerisindeki çalışmalar göz önünde bulunarak projeye üç kişi devam etme kararı alındı. |
+| 20.07 | Sprint tamamlandı. Tüm hedeflenen backlog maddelerinin (PB-02, PB-03, PB-04, PB-05) büyük ölçüde tamamlandığı teyit edildi. Sprint Review ve Retrospective toplantıları gerçekleştirildi ve Sprint 3 planı oluşturuldu.|
 
 ---
 
@@ -161,6 +161,30 @@ Bu sprintte tamamlanan Ürün Backlog öğeleri ve bunların projeye katkıları
 
   ### Etkinlik Ekleme Testi Sonucu Takvim
   ![Kayıt Sayfası](./SprintTwoFiles/calender_event_delete_test.png)
+
+  ### Takvim Aylık Görünüm
+  ![Takvim Aylık Görünüm](./SprintTwoFiles/takvim_aylik.png)
+
+  ### Takvim Haftalık Görünüm
+  ![Takvim Haftalık Görünüm](./SprintTwoFiles/takvim_haftalik.png)
+  
+  ### Takvim Günlük Görünüm
+  ![Takvim Günlük Görünüm](./SprintTwoFiles/takvim_gunluk.png)
+
+  ### Daily Task Test
+  ![Daily Task Test](./SprintTwoFiles/dailytasktest.png)
+
+  ### Email (Hatırlatma)
+  ![Email (Hatırlatma)](./SprintTwoFiles/email.png)
+
+  ### Event Update
+  ![Event Update](./SprintTwoFiles/event_update.png)
+
+  ### AI Test 1
+  ![AI Test 1](./SprintTwoFiles/aitest.png)
+
+  ### AI Test 2
+  ![AI Test 2](./SprintTwoFiles/aitest2.png)
 
  
   
