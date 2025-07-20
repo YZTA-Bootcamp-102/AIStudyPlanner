@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./SprintOneFiles/FocusFlowLogo.jpg" alt="FocusFlow Logo" width="400"/>
+  <img src="./SprintTwoFiles/FocusFlowLogo.jpg" alt="FocusFlow Logo" width="400"/>
 </p>
 
 # FocusFlow Sprint Raporu 2
@@ -16,8 +16,8 @@
 
 - **PB-02: Günlük Görev Planlayıcı**
 - **PB-03: Takvim Entegrasyonu**
-- **Görev Hatırlatma Servisi**
-- **Öğrenme İlerlemesi Ölçümü** 
+- **PB-04: Görev Hatırlatma Servisi**
+- **PB-05: Öğrenme İlerlemesi Ölçümü** 
 
 ---
 
@@ -30,7 +30,7 @@
 - [Ekran Görüntüleri](#ekran-görüntüleri)
 - [Sprint Review](#sprint-review)
 - [Sprint Retrospective](#sprint-retrospective)
-- [Sprint 2 Planı](#sprint-3-planı)
+- [Sprint 3 Planı](#sprint-3-planı)
 -----
 
 ### Sprint Notları
@@ -41,13 +41,13 @@ Bu sprintte, belirlenen temel fonksiyonelliklerin geliştirilmesi üzerine odakl
 
 **Açıklama:** AI destekli kullanıcı bazlı günlük planlama motoru.
 
-**Durum:** Görev oluşturma, silme, güncelleme ve listeleme için temel CRUD (Create, Read, Update, Delete) fonksiyonları başarıyla geliştirildi. Günlük görevlere yönelik API uçları yazıldı ve AI destekli görev tahmini algoritmasının ilk versiyonu arka uçta tamamlandı. Görevlerin arayüzde gün bazlı görselleştirilmesi ve tamamlama/işaretleme işlevleri için backend altyapısı hazırlandı. Şu an için ön uç entegrasyonu tamamlanmıştır ve tam fonksiyonellik sağlanmıştır.
+**Durum:** Görev oluşturma, silme, güncelleme ve listeleme için temel CRUD (Create, Read, Update, Delete) fonksiyonları başarıyla geliştirildi. Günlük görevlere yönelik API uçları yazıldı ve AI destekli görev tahmini algoritmasının ilk versiyonu arka uçta tamamlandı. Görevlerin arayüzde gün bazlı görselleştirilmesi ve tamamlama/işaretleme işlevleri için backend altyapısı hazırlandı. Şu an için ön uç entegrasyonu tamamlanmıştır ve tam fonksiyonellik sağlanmıştır. Sadece arayüzde görevlerin gün bazlı görüntülenmesi kısmı kalmıştır.
 
 - **PB-03: Takvim Entegrasyonu**
 
 **Açıklama:** Google Calendar API entegrasyonu ve otomatik görev atama.
 
-**Durum:** Google Calendar API yapılandırması ve OAuth 2.0 kimlik doğrulama süreci sorunsuz bir şekilde tamamlandı. Görevlerin Google Takvim'e işlenmesini sağlayan servis fonksiyonu geliştirildi. Takvim ayarları ekran tasarımı ve hatalı entegrasyon durumlarında kullanıcıya geri bildirim sağlayan mekanizmalar tamamlandı. Ön uç ve arka uç entegrasyonu da tamamlanarak işlevsel hale getirilmiştir.
+**Durum:** Google Calendar API yapılandırması ve OAuth 2.0 kimlik doğrulama süreci sorunsuz bir şekilde tamamlandı. Görevlerin Google Takvim'e işlenmesini sağlayan servis fonksiyonu geliştirildi. Takvim ayarları ekran tasarımı ve hatalı entegrasyon durumlarında kullanıcıya geri bildirim sağlayan mekanizmalar tamamlandı. Ön uç ve arka uç entegrasyonu henüz tamamlanamamıştır.
 
 - **PB-04: Görev Hatırlatma Servisi**
 
@@ -127,10 +127,10 @@ Bu sprintte tamamlanan Ürün Backlog öğeleri ve bunların projeye katkıları
 
 | Blaclog ID | Başlık | Tahmini Efor |Durum |
 |----------|-------------|-------------|-------------|
-| PB-02 | Günlük Görev Planlayıcı | 5 | Tamamlandı |
-| PB-03 | Takvim Entegrasyonu | 3 | Tamamlandı |
+| PB-02 | Günlük Görev Planlayıcı | 5 | Kısmen Tamamlandı |
+| PB-03 | Takvim Entegrasyonu | 3 | Kısmen Tamamlandı |
 | PB-04 | Görev Hatırlatma Servisi | 5 | Tamamlandı |
-| PB-05 | İlerleme Ölçümü | 8 | Tamamlandı |
+| PB-05 | İlerleme Ölçümü | 8 | Kısmen Tamamlandı |
 | **Toplam** | **21** |
 
 ### Ekran Görüntüleri
@@ -162,23 +162,23 @@ Bu sprintte tamamlanan Ürün Backlog öğeleri ve bunların projeye katkıları
   ### Etkinlik Ekleme Testi Sonucu Takvim
   ![Kayıt Sayfası](./SprintTwoFiles/calender_event_delete_test.png)
 
-  ### Takvim Aylık Görünüm
-  ![Takvim Aylık Görünüm](./SprintTwoFiles/takvim_aylik.png)
+  ### Takvim Aylık Görünüm (Arayüz)
+  ![Takvim Aylık Görünüm](./SprintTwoFiles/takvim_aylık.png)
 
-  ### Takvim Haftalık Görünüm
-  ![Takvim Haftalık Görünüm](./SprintTwoFiles/takvim_haftalik.png)
+  ### Takvim Haftalık Görünüm (Arayüz)
+  ![Takvim Haftalık Görünüm](./SprintTwoFiles/takvim_haftalık.png)
   
-  ### Takvim Günlük Görünüm
+  ### Takvim Günlük Görünüm (Arayüz)
   ![Takvim Günlük Görünüm](./SprintTwoFiles/takvim_gunluk.png)
+
+  ### Etkinlik Düzenleme (Arayüz)
+  ![Event Update](./SprintTwoFiles/event_update.png)
 
   ### Daily Task Test
   ![Daily Task Test](./SprintTwoFiles/dailytasktest.png)
 
-  ### Email (Hatırlatma)
-  ![Email (Hatırlatma)](./SprintTwoFiles/email.png)
-
-  ### Event Update
-  ![Event Update](./SprintTwoFiles/event_update.png)
+  ### Email (Şifre Sıfırlama)
+  ![Email (Hatırlatma)](./SprintTwoFiles/email.jpg)
 
   ### AI Test 1
   ![AI Test 1](./SprintTwoFiles/aitest.png)
@@ -202,16 +202,16 @@ Sprint İncelemesi toplantısında, paydaşlarımızla bir araya gelerek bu spri
 - **Başarılar ve Öne Çıkanlar:**
   - **Takvim Entegrasyonu (PB-03):** Google Takvim ile sorunsuz entegrasyon ve görevlerin otomatik olarak takvime eklenmesi özelliği, uygulamanın kullanışlılığını artırması açısından olumlu geri bildirimler aldı.
    
-  - **Görev Hatırlatma Servisi (PB-04):** Tamamen işlevsel olması ve kullanıcıların bildirim tercihlerini yönetebilmesi, paydaşlar tarafından büyük beğeniyle karşılandı.
+  - **Görev Hatırlatma Servisi (PB-04):** Tamamen işlevsel olması ve kullanıcıların bildirim tercihlerini yönetebilmesi, ekibimiz tarafından büyük beğeniyle karşılandı.
     
-  - **Öğrenme İlerlemesi Ölçümü (PB-05):** Gelişim çubukları ve otomatik AI yorumları gibi özellikler, kullanıcının motivasyonunu artırma potansiyeli nedeniyle takdir edildi.
+  - **Öğrenme İlerlemesi Ölçümü (PB-05):** Gelişim çubukları ve otomatik AI yorumları gibi özellikler, kullanıcının motivasyonunu artırma potansiyeli nedeniyle oldukça etkili görünüyor.
 
 - **Alınan Geri Bildirimler ve Öneriler:**
   - **Kullanıcı Arayüzü İyileştirmeleri:** Bazı arayüz elementlerinde küçük estetik dokunuşlar ve daha sezgisel akışlar üzerine öneriler alındı. Özellikle görev planlayıcının (PB-02) görsel sunumu konusunda daha fazla esneklik istendi.
 
   - **Performans Optimizasyonu:** Özellikle büyük veri setleriyle çalışıldığında takvim entegrasyonunun ve ilerleme ölçümünün yüklenme süreleri hakkında küçük endişeler dile getirildi. Bu, gelecek sprintlerde performans optimizasyonlarına odaklanma ihtiyacını ortaya koydu.
 
-  - **AI Asistanı Entegrasyonu:** Bir önceki sprintte tasarımı yapılan AI Asistanı'nın, bu sprintte tamamlanan modüllerle daha derinlemesine nasıl entegre edilebileceği konusunda fikir alışverişinde bulunuldu. Özellikle görev planlama ve öğrenme tavsiyelerinde AI'ın rolünün artırılması önerildi.
+  - **AI Asistanı Entegrasyonu:** Bir önceki sprintte tasarımı yapılan AI Asistanı'nın, bu sprintte tamamlanan modüllerle daha derinlemesine nasıl entegre edilebileceği konusunda fikir alışverişinde bulunuldu. Özellikle görev planlama ve öğrenme tavsiyelerinde AI'ın rolünün artırılması gerektiği kararına vardık.
 
 
 ---
@@ -221,7 +221,6 @@ Sprint İncelemesi toplantısında, paydaşlarımızla bir araya gelerek bu spri
 Bu sprintin sonunda, takım olarak kapsamlı bir retrospektif toplantısı gerçekleştirdik. Bu toplantıda, bu sprintte nelerin yolunda gittiğini, karşılaştığımız zorlukları ve gelecek sprintler için nasıl daha iyi bir performans sergileyebileceğimizi detaylı bir şekilde analiz ettik. Amacımız, sürekli öğrenen ve gelişen bir ekip olmak.
 
 - **Neler İyi Gitti?**
-  - **Net Odak ve Hedef Tamamlanması:** Bu sprintte belirlediğimiz görev planlayıcı, takvim entegrasyonu ve öğrenme takibi ana hedeflerine tam olarak ulaşabildik. Takımın tüm backlog maddelerine aynı anda odaklanabilmesi, verimli bir ilerleme sağladı.
   - **Güçlü Takım İçi İletişim:** Daily Scrum'lar ve sürekli iletişim kanalları, ekip üyeleri arasındaki bilgi akışını mükemmel düzeyde tuttu. Karşılaşılan engellerin anında paylaşılması ve çözüm önerilerinin birlikte geliştirilmesi, sprintin sorunsuz ilerlemesinde kilit rol oynadı.
   - **Teknik Borç Yönetimi:** Entegrasyon süreçlerinde ortaya çıkan bazı küçük teknik borçları anında ele alıp çözümleyerek, projenin sağlamlığını koruduk. Bu, gelecekte ortaya çıkabilecek daha büyük sorunların önüne geçti.
   - **Kaliteye Odaklanma:** Teslim ettiğimiz her bir modülde (özellikle PB-04 ve PB-03) yüksek kalite standartlarını korumayı başardık. Hatasız ve kullanıcı dostu arayüzler sunmak, takımın önceliği oldu.
@@ -229,7 +228,7 @@ Bu sprintin sonunda, takım olarak kapsamlı bir retrospektif toplantısı gerç
 - **Neler Daha İyi Yapılabilirdi?**
   - **Geliştirme Ortamı İstikrarsızlığı:** Sprintin bazı dönemlerinde geliştirme ortamımızda beklenmedik istikrarsızlıklar (örneğin bağımlılık çakışmaları veya yerel kurulum sorunları) yaşandı. Bu durum, bazı takım üyelerinin başlangıçta zaman kaybetmesine neden oldu.
   - **Performans Testlerine Daha Fazla Odaklanma:** Modüllerin fonksiyonel olarak çalışması sağlanırken, özellikle yüksek veri hacimlerinde performans testlerine yeterince zaman ayrılamadı. Bu, gelecekte potansiyel performans darboğazlarına yol açabilir.
-  - **Takım Kadrosu Değişikliği:** Sprintin sonlarına doğru takım üyelerimizden birinin katılım eksikliği nedeniyle ekipten ayrılması, gelecek sprintler için mevcut takım kapasitemizi etkileyecek bir durumdur. Bu durum, takımın kalan üyeleri üzerindeki potansiyel iş yükünü artırabilir ve yeni bir denge kurulmasını gerektirebilir.
+  - **Takım Kadrosu Değişikliği:** Sprintin sonlarına doğru takım üyelerimizden birinin katılım eksikliği nedeniyle ekipten ayrılması ve onun kısmını tamamlamaya çalışmamız diğer backloglardaki backend ve frontend entegrasyonunu sağlayamamıza neden oldu, aldığımız karar ile gelecek sprintler için mevcut takım kapasitemizi üç kişi olarak güncelledik. Bu durum, takımın kalan üyeleri üzerindeki potansiyel iş yükünü artırabilir ve yeni bir denge kurulmasını gerektirebilir.
 
 - **Gelecek Sprint İçin Aksiyon Maddeleri:**
   - **Geliştirme Ortamı İyileştirmesi:** Yeni sprint başlamadan önce, tüm takım üyeleri için ortak ve istikrarlı bir geliştirme ortamı şablonu/rehberi oluşturulacak. CI/CD süreçleri gözden geçirilerek olası istikrarsızlıklar minimize edilecek.
