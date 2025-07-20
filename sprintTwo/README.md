@@ -244,7 +244,7 @@ Bu sprintin sonunda, takım olarak kapsamlı bir retrospektif toplantısı gerç
 
 Bu sprintte elde edilen kazanımlar ve retrospektif sonuçları ışığında, bir sonraki sprint olan Sprint 3 için hedeflerimiz ve öncelikli backloglarımız aşağıdaki gibidir:
 
-Takımımızın bir üyesinin ayrılması nedeniyle, Sprint 3'teki iş yükü dağılımımızı ve Story Point hedeflerimizi mevcut takım kapasitemize göre yeniden gözden geçireceğiz. Bu durum, odaklanmamız gereken backlog maddelerini daha dikkatli seçmemizi gerektirecektir.
+Takımımızın bir üyesinin ayrılması nedeniyle, Sprint 3'teki iş yükü dağılımımızı ve Story Point hedeflerimizi mevcut takım kapasitemize göre yeniden gözden geçireceğiz. Bu durum, odaklanmamız gereken backlog maddelerini daha dikkatli seçmemizi gerektirecektir. Ayrıca bu sprintten kalan backend ve frontend entegrasyonlarını tamamlamak önceliğimiz olmalı.
 
 - **Hedefler:** Kullanıcıların öğrenme hedeflerini daha detaylı belirleyebilmesi, AI destekli kişiselleştirilmiş öğrenme modüllerinin aktif hale getirilmesi ve genel uygulama performansının iyileştirilmesi.
 
