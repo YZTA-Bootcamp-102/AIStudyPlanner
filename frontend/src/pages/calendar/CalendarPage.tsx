@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { format, addDays, subDays, isSameDay } from 'date-fns';
+import React, { useState, useEffect } from 'react';
+import { format, addDays, subDays, isSameDay, parse, startOfDay } from 'date-fns';
 import { tr } from 'date-fns/locale';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from 'lucide-react';
 import DailyView from '../../components/calendar/CalendarViews/DailyView';
@@ -7,15 +7,40 @@ import WeeklyView from '../../components/calendar/CalendarViews/WeeklyView';
 import MonthlyView from '../../components/calendar/CalendarViews/MonthlyView';
 import { mockTasks } from '../../data/mockCalendarData';
 import { Helmet } from 'react-helmet-async';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 type ViewType = 'daily' | 'weekly' | 'monthly';
 
 const CalendarPage = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const dateParam = searchParams.get('date');
+
+  // URL'den tarihi al veya bugünün tarihini kullan
+  const initialDate = dateParam 
+    ? startOfDay(parse(dateParam, 'yyyy-MM-dd', new Date()))
+    : startOfDay(new Date());
+
+  const [selectedDate, setSelectedDate] = useState(initialDate);
   const [view, setView] = useState<ViewType>('daily');
 
+  // URL'deki tarih değiştiğinde selectedDate'i güncelle
+  useEffect(() => {
+    if (dateParam) {
+      const parsedDate = startOfDay(parse(dateParam, 'yyyy-MM-dd', new Date()));
+      setSelectedDate(parsedDate);
+    }
+  }, [dateParam]);
+
+  const formatDateForUrl = (date: Date): string => {
+    return format(date, 'yyyy-MM-dd');
+  };
+
   const handleDayClick = (date: Date) => {
-    setSelectedDate(date);
+    const localDate = startOfDay(date);
+    setSelectedDate(localDate);
+    // URL'yi güncelle
+    navigate(`/calendar?date=${formatDateForUrl(localDate)}`);
     // Sadece aylık görünümden bir güne tıklandığında günlük görünüme geç
     if (view === 'monthly') {
       setView('daily');
@@ -23,7 +48,10 @@ const CalendarPage = () => {
   };
 
   const handleDateChange = (date: Date) => {
-    setSelectedDate(date);
+    const localDate = startOfDay(date);
+    setSelectedDate(localDate);
+    // URL'yi güncelle
+    navigate(`/calendar?date=${formatDateForUrl(localDate)}`);
   };
 
   return (

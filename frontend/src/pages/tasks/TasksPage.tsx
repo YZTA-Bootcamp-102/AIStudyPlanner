@@ -6,34 +6,20 @@ import type { TaskDetailType } from '../../components/tasks/TaskDetailModal';
 import TaskDetailModal from '../../components/tasks/TaskDetailModal';
 import TaskAIChat from '../../components/tasks/TaskAIChat';
 import { Helmet } from 'react-helmet-async';
-
-interface Task {
-  id: number;
-  title: string;
-  completed: boolean;
-  time: string;
-  priority: 'high' | 'medium' | 'low';
-  category: string;
-  dueDate?: string;
-  tags?: string[];
-  lesson?: string;
-  repeat?: string;
-  customRepeat?: string;
-  subtasks?: any[];
-  comments?: any[];
-  description?: string;
-}
+import { mockTasks } from '../../data/mockCalendarData';
+import type { CalendarTask } from '../../types/calendar';
+import { format, parseISO, isSameDay, isAfter } from 'date-fns';
 
 const TasksPage = () => {
   const [showCompleted, setShowCompleted] = useState(false);
-  const [animatingTaskId, setAnimatingTaskId] = useState<number | null>(null);
+  const [animatingTaskId, setAnimatingTaskId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedPriority, setSelectedPriority] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'time' | 'priority' | 'dueDate'>('time');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [detailModalOpen, setDetailModalOpen] = useState(false);
-  const [selectedTask, setSelectedTask] = useState<{ detail: TaskDetailType; base: Task } | null>(null);
+  const [selectedTask, setSelectedTask] = useState<{ detail: TaskDetailType; base: CalendarTask } | null>(null);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [showPriorityDropdown, setShowPriorityDropdown] = useState(false);
   const [showSortDropdown, setShowSortDropdown] = useState(false);
@@ -61,107 +47,18 @@ const TasksPage = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Örnek görevler - gerçek uygulamada API'den gelecek
-  const [tasks, setTasks] = useState<Task[]>([
-    { 
-      id: 1, 
-      title: 'Matematik ödevini tamamla', 
-      completed: false, 
-      time: '10:00',
-      priority: 'high',
-      category: 'Ders',
-      description: 'Kalkülüs bölüm 3 problemleri 1-15 arası',
-      dueDate: '2024-03-20'
-    },
-    { 
-      id: 2, 
-      title: 'Fizik sınavına hazırlan', 
-      completed: false, 
-      time: '11:30',
-      priority: 'high',
-      category: 'Sınav',
-      description: 'Mekanik ve termodinamik konularını tekrar et',
-      dueDate: '2024-03-21'
-    },
-    { 
-      id: 3, 
-      title: 'Kimya laboratuvar raporunu yaz', 
-      completed: false, 
-      time: '13:00',
-      priority: 'medium',
-      category: 'Laboratuvar',
-      description: 'Asit-baz titrasyonu deneyi raporu',
-      dueDate: '2024-03-22'
-    },
-    { 
-      id: 4, 
-      title: 'İngilizce kelime çalış', 
-      completed: false, 
-      time: '14:30',
-      priority: 'low',
-      category: 'Dil',
-      description: 'TOEFL kelime listesi 1-50 arası',
-      dueDate: '2024-03-23'
-    },
-    { 
-      id: 5, 
-      title: 'Biyoloji sunumunu hazırla', 
-      completed: false, 
-      time: '15:00',
-      priority: 'medium',
-      category: 'Proje',
-      description: 'Hücre bölünmesi konulu sunum',
-      dueDate: '2024-03-24'
-    },
-    { 
-      id: 6, 
-      title: 'Tarih konularını tekrar et', 
-      completed: false, 
-      time: '16:30',
-      priority: 'low',
-      category: 'Ders',
-      description: 'Osmanlı tarihi 18. yüzyıl',
-      dueDate: '2024-03-25'
-    },
-    { 
-      id: 7, 
-      title: 'Edebiyat ödevini kontrol et', 
-      completed: false, 
-      time: '17:00',
-      priority: 'medium',
-      category: 'Ödev',
-      description: 'Roman analizi ödevini son kez gözden geçir',
-      dueDate: '2024-03-26'
-    },
-    { 
-      id: 8, 
-      title: 'Programlama projesi üzerinde çalış', 
-      completed: true, 
-      time: '09:00',
-      priority: 'high',
-      category: 'Proje',
-      description: 'React uygulaması geliştirme',
-      dueDate: '2024-03-19'
-    },
-    { 
-      id: 9, 
-      title: 'Felsefe makalesi oku', 
-      completed: true, 
-      time: '12:00',
-      priority: 'medium',
-      category: 'Okuma',
-      description: 'Platon\'un Devlet kitabı 5. bölüm',
-      dueDate: '2024-03-18'
-    }
-  ]);
+  // Bugünün görevlerini al
+  const todaysTasks = mockTasks.filter(task => 
+    isSameDay(parseISO(task.startTime), new Date())
+  );
 
-  const completedTasks = tasks.filter(task => task.completed);
-  const pendingTasks = tasks.filter(task => !task.completed);
-  const totalTasks = tasks.length;
-  const completionPercentage = (completedTasks.length / totalTasks) * 100;
+  const completedTasks = todaysTasks.filter(task => task.completed);
+  const pendingTasks = todaysTasks.filter(task => !task.completed);
+  const totalTasks = todaysTasks.length;
+  const completionPercentage = totalTasks > 0 ? (completedTasks.length / totalTasks) * 100 : 0;
 
   // Filtreleme ve arama
-  const filteredTasks = tasks.filter(task => {
+  const filteredTasks = todaysTasks.filter(task => {
     const matchesSearch = task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          task.description?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || task.category === selectedCategory;
@@ -175,31 +72,32 @@ const TasksPage = () => {
   const sortedTasks = [...filteredTasks].sort((a, b) => {
     switch (sortBy) {
       case 'time':
-        return a.time.localeCompare(b.time);
+        return a.startTime.localeCompare(b.startTime);
       case 'priority':
         const priorityOrder = { high: 3, medium: 2, low: 1 };
         return priorityOrder[b.priority] - priorityOrder[a.priority];
       case 'dueDate':
-        return (a.dueDate || '').localeCompare(b.dueDate || '');
+        return a.endTime.localeCompare(b.endTime);
       default:
         return 0;
     }
   });
 
   // Zamanı geçmiş görevleri kontrol et
-  const isOverdue = (time: string) => {
-    const [hours, minutes] = time.split(':').map(Number);
-    const taskTime = new Date();
-    taskTime.setHours(hours, minutes);
-    return taskTime < new Date();
+  const isOverdue = (timeStr: string) => {
+    const taskTime = parseISO(timeStr);
+    return isAfter(new Date(), taskTime);
   };
 
-  const handleTaskToggle = (taskId: number) => {
+  const handleTaskToggle = (taskId: string) => {
     setAnimatingTaskId(taskId);
-    setTasks(tasks.map(task =>
-      task.id === taskId ? { ...task, completed: !task.completed } : task
-    ));
+    // Not: Backend olmadığı için şimdilik bir şey yapmıyoruz
+    console.log('Task toggle:', taskId);
     setTimeout(() => setAnimatingTaskId(null), 1000);
+  };
+
+  const formatTaskTime = (timeStr: string): string => {
+    return format(parseISO(timeStr), 'HH:mm');
   };
 
   const getPriorityColor = (priority: string) => {
@@ -220,33 +118,16 @@ const TasksPage = () => {
     }
   };
 
-  const categories = ['all', 'Ders', 'Sınav', 'Proje', 'Ödev', 'Laboratuvar', 'Dil', 'Okuma'];
+  const categories = ['all', ...new Set(mockTasks.map(task => task.category))];
 
   const handleAddTask = (task: any) => {
-    setTasks(prev => [task, ...prev]);
+    // Not: Backend olmadığı için şimdilik bir şey yapmıyoruz
+    console.log('Add task:', task);
   };
 
   const handleTaskSave = (updatedTask: TaskDetailType, shouldClose?: boolean) => {
-    if (!selectedTask) return;
-    setTasks(prev => prev.map(t =>
-      t.id === selectedTask.base.id
-        ? {
-            ...t,
-            title: updatedTask.title,
-            description: updatedTask.description,
-            category: updatedTask.category,
-            tags: updatedTask.tags,
-            lesson: updatedTask.lesson,
-            time: updatedTask.time,
-            dueDate: updatedTask.date,
-            repeat: updatedTask.repeat,
-            customRepeat: updatedTask.customRepeat,
-            subtasks: updatedTask.subtasks,
-            comments: updatedTask.comments,
-            priority: updatedTask.priority as 'high' | 'medium' | 'low'
-          }
-        : t
-    ));
+    // Not: Backend olmadığı için şimdilik bir şey yapmıyoruz
+    console.log('Update task:', updatedTask);
     if (shouldClose) {
       setDetailModalOpen(false);
       setSelectedTask(null);
@@ -512,8 +393,8 @@ const TasksPage = () => {
               <div>
                 {sortedTasks.length > 0 ? (
                   <ul>
-                    {sortedTasks.map((task, idx) => {
-                      const overdue = isOverdue(task.time);
+                    {sortedTasks.map((task) => {
+                      const overdue = isOverdue(task.startTime);
                       return (
                         <li
                           key={task.id}
@@ -527,9 +408,9 @@ const TasksPage = () => {
                                 description: task.description || '',
                                 category: task.category || '',
                                 tags: task.tags || [],
-                                lesson: task.lesson || '',
-                                date: task.dueDate || '',
-                                time: task.time || '',
+                                lesson: '',
+                                date: task.endTime || '',
+                                time: formatTaskTime(task.startTime),
                                 repeat: task.repeat || 'none',
                                 customRepeat: task.customRepeat || '',
                                 subtasks: task.subtasks || [],
@@ -552,18 +433,10 @@ const TasksPage = () => {
                             </div>
                             {/* Tarih ve saat bilgileri */}
                             <div className="flex items-center gap-3 mt-1">
-                              {task.time && (
-                                <span className="flex items-center text-xs text-orange-600 dark:text-orange-400 font-medium">
-                                  <Clock size={12} className="mr-1" />
-                                  {task.time}
-                                </span>
-                              )}
-                              {task.dueDate && (
-                                <span className="flex items-center text-xs text-orange-500 dark:text-orange-300 font-medium">
-                                  <Calendar size={12} className="mr-1" />
-                                  {task.dueDate}
-                                </span>
-                              )}
+                              <span className="flex items-center text-xs text-orange-600 dark:text-orange-400 font-medium">
+                                <Clock size={12} className="mr-1" />
+                                {formatTaskTime(task.startTime)}
+                              </span>
                               <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
                                 task.priority === 'high' 
                                   ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400'
@@ -607,9 +480,9 @@ const TasksPage = () => {
                                     description: task.description || '',
                                     category: task.category || '',
                                     tags: task.tags || [],
-                                    lesson: task.lesson || '',
-                                    date: task.dueDate || '',
-                                    time: task.time || '',
+                                    lesson: '',
+                                    date: task.endTime || '',
+                                    time: formatTaskTime(task.startTime),
                                     repeat: task.repeat || 'none',
                                     customRepeat: task.customRepeat || '',
                                     subtasks: task.subtasks || [],
@@ -685,11 +558,8 @@ const TasksPage = () => {
                 task={selectedTask.detail}
                 onSave={handleTaskSave}
                 onDelete={() => {
-                  if (selectedTask) {
-                    setTasks(prev => prev.filter(t => t.id !== selectedTask.base.id));
-                    setDetailModalOpen(false);
-                    setSelectedTask(null);
-                  }
+                  setDetailModalOpen(false);
+                  setSelectedTask(null);
                 }}
               />
             </div>

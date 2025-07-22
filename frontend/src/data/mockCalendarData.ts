@@ -226,4 +226,20 @@ export const taskTypeColors = {
   low: '#96CEB4',
   medium: '#4ECDC4',
   high: '#FF6B6B'
+};
+
+// Dashboard için takvim verilerini oluşturan yardımcı fonksiyon
+export const generateCalendarData = () => {
+  const calendarData: { [key: string]: number } = {};
+  
+  mockTasks.forEach(task => {
+    const dateStr = task.startTime.split('T')[0];
+    if (calendarData[dateStr]) {
+      calendarData[dateStr]++;
+    } else {
+      calendarData[dateStr] = 1;
+    }
+  });
+
+  return calendarData;
 }; 

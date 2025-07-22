@@ -3,25 +3,12 @@ import Calendar from 'react-calendar';
 import { CalendarIcon, ChevronRight, CheckCircle2, StickyNote, Loader2, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import 'react-calendar/dist/Calendar.css';
+import { format, startOfDay, parseISO, isSameDay } from 'date-fns';
+import { mockTasks } from '../../../data/mockCalendarData';
+import type { CalendarTask } from '../../../types/calendar';
 
 interface CalendarData {
   [key: string]: number;
-}
-
-interface Task {
-  id: string;
-  title: string;
-  completed: boolean;
-}
-
-interface Note {
-  id: string;
-  content: string;
-}
-
-interface DayDetails {
-  tasks: Task[];
-  notes: Note[];
 }
 
 interface CalendarSectionProps {
@@ -31,65 +18,33 @@ interface CalendarSectionProps {
 const CalendarSection = ({ calendarData }: CalendarSectionProps) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isLoading, setIsLoading] = useState(false);
-  const [dayDetails, setDayDetails] = useState<DayDetails | null>(null);
-
-  // Farklı günler için örnek veriler
-  const generateMockData = (date: Date): DayDetails => {
-    const day = date.getDate();
-    const mockData: DayDetails = {
-      tasks: [
-        { 
-          id: `${day}-1`, 
-          title: day % 3 === 0 ? 'Matematik ödevini tamamla' : day % 2 === 0 ? 'Fizik laboratuvar raporu' : 'İngilizce kelime çalışması',
-          completed: day % 2 === 0 
-        },
-        { 
-          id: `${day}-2`, 
-          title: day % 2 === 0 ? 'Kimya deneyi hazırlığı' : 'Tarih sunumu hazırla',
-          completed: day % 3 === 0 
-        },
-        { 
-          id: `${day}-3`, 
-          title: day % 3 === 0 ? 'Biyoloji konu tekrarı' : 'Coğrafya harita çalışması',
-          completed: day % 4 === 0 
-        }
-      ],
-      notes: [
-        { 
-          id: `${day}-1`, 
-          content: day % 2 === 0 
-            ? 'Matematik formüllerini tekrar et - Özellikle türev konusuna odaklan' 
-            : 'İngilizce essay için outline hazırla'
-        },
-        { 
-          id: `${day}-2`, 
-          content: day % 3 === 0 
-            ? 'Fizik formüllerini not defterine yaz - Newton yasaları' 
-            : 'Tarih sınavı için önemli tarihleri listele'
-        }
-      ]
-    };
-    return mockData;
-  };
+  const [selectedDateTasks, setSelectedDateTasks] = useState<CalendarTask[]>([]);
 
   useEffect(() => {
-    const loadDayDetails = async () => {
+    const loadTasks = async () => {
       setIsLoading(true);
-      setDayDetails(null);
       
       // Simüle edilmiş API gecikmesi
       await new Promise(resolve => setTimeout(resolve, 700));
       
-      const newDetails = generateMockData(selectedDate);
-      setDayDetails(newDetails);
+      // Seçili güne ait görevleri filtrele
+      const tasksForDay = mockTasks.filter(task => 
+        isSameDay(parseISO(task.startTime), selectedDate)
+      );
+
+      setSelectedDateTasks(tasksForDay);
       setIsLoading(false);
     };
 
-    loadDayDetails();
+    loadTasks();
   }, [selectedDate]);
 
+  const formatDateForUrl = (date: Date): string => {
+    return format(date, 'yyyy-MM-dd');
+  };
+
   const tileContent = ({ date }: { date: Date }) => {
-    const dateStr = date.toISOString().split('T')[0];
+    const dateStr = formatDateForUrl(date);
     const eventCount = calendarData[dateStr];
 
     if (eventCount) {
@@ -107,10 +62,10 @@ const CalendarSection = ({ calendarData }: CalendarSectionProps) => {
   };
 
   const tileClassName = ({ date, view }: { date: Date; view: string }) => {
-    const dateStr = date.toISOString().split('T')[0];
+    const dateStr = formatDateForUrl(date);
     const hasEvents = calendarData[dateStr];
-    const isSelected = selectedDate && date.toDateString() === selectedDate.toDateString();
-    const isToday = new Date().toDateString() === date.toDateString();
+    const isSelected = selectedDate && startOfDay(date).getTime() === startOfDay(selectedDate).getTime();
+    const isToday = startOfDay(date).getTime() === startOfDay(new Date()).getTime();
 
     let classes = 'relative group hover:bg-orange-50 dark:hover:bg-orange-500/10';
 
@@ -134,6 +89,11 @@ const CalendarSection = ({ calendarData }: CalendarSectionProps) => {
       month: 'long',
       day: 'numeric'
     });
+  };
+
+  const formatTaskTime = (timeStr: string): string => {
+    const date = parseISO(timeStr);
+    return format(date, 'HH:mm');
   };
 
   return (
@@ -184,7 +144,7 @@ const CalendarSection = ({ calendarData }: CalendarSectionProps) => {
             {formatDate(selectedDate)}
           </h3>
           <Link 
-            to={`/calendar?date=${selectedDate.toISOString().split('T')[0]}`}
+            to={`/calendar?date=${formatDateForUrl(selectedDate)}`}
             className="text-sm text-orange-500 hover:text-orange-600 dark:hover:text-orange-400 flex items-center group"
           >
             Tüm detayları gör
@@ -206,122 +166,67 @@ const CalendarSection = ({ calendarData }: CalendarSectionProps) => {
               <div className="flex items-center justify-center py-6">
                 <Loader2 className="w-5 h-5 text-orange-500 animate-spin" />
               </div>
-            ) : dayDetails ? (
-              dayDetails.tasks.length > 0 ? (
-                <div className="space-y-2">
-                  {dayDetails.tasks.slice(0, 2).map((task, index) => (
-                    <div 
-                      key={task.id}
-                      className="group relative flex items-center justify-between p-3 bg-gradient-to-br from-gray-50 to-gray-50/50 dark:from-gray-700/50 dark:to-gray-700/30 hover:from-orange-50 hover:to-orange-50/50 dark:hover:from-orange-900/10 dark:hover:to-orange-800/5 rounded-xl border border-gray-200/50 dark:border-gray-600/50 hover:border-orange-200 dark:hover:border-orange-700 transition-all duration-300"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/0 to-orange-500/0 group-hover:from-orange-500/5 group-hover:to-orange-500/10 dark:group-hover:from-orange-400/10 dark:group-hover:to-orange-400/20 transition-all duration-300 rounded-xl"></div>
-                      
-                      <div className="relative flex items-center space-x-3">
-                        <button
-                          className={`relative w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
-                            task.completed
-                              ? 'bg-orange-500 border-orange-500'
-                              : 'border-gray-300 dark:border-gray-600 group-hover:border-orange-500'
-                          }`}
-                        >
-                          {task.completed && (
-                            <Check size={12} className="text-white" />
-                          )}
-                        </button>
-                        <span className={`text-sm transition-all duration-300 ${
-                          task.completed 
-                            ? 'text-gray-400 dark:text-gray-500 line-through' 
-                            : 'text-gray-700 dark:text-gray-200'
-                        }`}>
-                          {task.title}
-                        </span>
-                      </div>
-                      
-                      <div className="relative flex items-center">
-                        <span className={`text-xs transition-colors duration-200 ${
-                          task.completed 
-                            ? 'text-gray-400 dark:text-gray-500' 
-                            : 'text-gray-600 dark:text-gray-400'
-                        }`}>
-                          {`${9 + index}:${index === 0 ? '00' : '30'}`}
-                        </span>
-                      </div>
+            ) : selectedDateTasks.length > 0 ? (
+              <div className="space-y-2">
+                {selectedDateTasks.slice(0, 2).map((task, index) => (
+                  <div 
+                    key={task.id}
+                    className="group relative flex items-center justify-between p-3 bg-gradient-to-br from-gray-50 to-gray-50/50 dark:from-gray-700/50 dark:to-gray-700/30 hover:from-orange-50 hover:to-orange-50/50 dark:hover:from-orange-900/10 dark:hover:to-orange-800/5 rounded-xl border border-gray-200/50 dark:border-gray-600/50 hover:border-orange-200 dark:hover:border-orange-700 transition-all duration-300"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-500/0 to-orange-500/0 group-hover:from-orange-500/5 group-hover:to-orange-500/10 dark:group-hover:from-orange-400/10 dark:group-hover:to-orange-400/20 transition-all duration-300 rounded-xl"></div>
+                    
+                    <div className="relative flex items-center space-x-3">
+                      <button
+                        className={`relative w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-300 ${
+                          task.completed
+                            ? 'bg-orange-500 border-orange-500'
+                            : 'border-gray-300 dark:border-gray-600 group-hover:border-orange-500'
+                        }`}
+                      >
+                        {task.completed && (
+                          <Check size={12} className="text-white" />
+                        )}
+                      </button>
+                      <span className={`text-sm transition-all duration-300 ${
+                        task.completed 
+                          ? 'text-gray-400 dark:text-gray-500 line-through' 
+                          : 'text-gray-700 dark:text-gray-200'
+                      }`}>
+                        {task.title}
+                      </span>
                     </div>
-                  ))}
-                  {dayDetails.tasks.length > 2 && (
-                    <Link 
-                      to={`/calendar?date=${selectedDate.toISOString().split('T')[0]}`}
-                      className="block text-xs text-orange-500 hover:text-orange-600 dark:hover:text-orange-400 text-center py-2 hover:bg-orange-50 dark:hover:bg-orange-900/20 rounded-lg transition-colors duration-200"
-                    >
-                      +{dayDetails.tasks.length - 2} görev daha
-                    </Link>
-                  )}
-                </div>
-              ) : (
-                <div className="text-center py-6 bg-gray-50 dark:bg-gray-700/50 rounded-xl border border-gray-200/50 dark:border-gray-600/50">
-                  <CheckCircle2 size={20} className="text-gray-400 mx-auto mb-2" />
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-                    Bu gün için görev yok
-                  </p>
-                  <button className="px-4 py-2 text-xs bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors duration-200">
-                    Görev Ekle
-                  </button>
-                </div>
-              )
-            ) : null}
-          </div>
-
-          {/* Notlar Bölümü */}
-          <div>
-            <div className="flex items-center justify-between mb-3">
-              <h4 className="text-sm font-semibold text-gray-900 dark:text-white flex items-center">
-                <StickyNote size={16} className="mr-2 text-blue-500" />
-                Notlar
-              </h4>
-            </div>
-
-            {isLoading ? (
-              <div className="flex items-center justify-center py-6">
-                <Loader2 className="w-5 h-5 text-blue-500 animate-spin" />
+                    
+                    <div className="relative flex items-center">
+                      <span className={`text-xs transition-colors duration-200 ${
+                        task.completed 
+                          ? 'text-gray-400 dark:text-gray-500' 
+                          : 'text-gray-600 dark:text-gray-400'
+                      }`}>
+                        {formatTaskTime(task.startTime)}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+                {selectedDateTasks.length > 2 && (
+                  <Link 
+                    to={`/calendar?date=${formatDateForUrl(selectedDate)}`}
+                    className="block text-xs text-orange-500 hover:text-orange-600 dark:hover:text-orange-400 text-center py-2 hover:bg-orange-50 dark:hover:bg-orange-900/20 rounded-lg transition-colors duration-200"
+                  >
+                    +{selectedDateTasks.length - 2} görev daha
+                  </Link>
+                )}
               </div>
-            ) : dayDetails ? (
-              dayDetails.notes.length > 0 ? (
-                <div className="space-y-2">
-                  {dayDetails.notes.slice(0, 1).map((note) => (
-                    <div 
-                      key={note.id}
-                      className="group relative flex items-start p-3 bg-gradient-to-br from-gray-50 to-gray-50/50 dark:from-gray-700/50 dark:to-gray-700/30 hover:from-blue-50 hover:to-blue-50/50 dark:hover:from-blue-900/10 dark:hover:to-blue-800/5 rounded-xl border border-gray-200/50 dark:border-gray-600/50 hover:border-blue-200 dark:hover:border-blue-700 transition-all duration-300"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-blue-500/0 group-hover:from-blue-500/5 group-hover:to-blue-500/10 dark:group-hover:from-blue-400/10 dark:group-hover:to-blue-400/20 transition-all duration-300 rounded-xl"></div>
-                      
-                      <div className="relative flex-1">
-                        <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                          {note.content}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                  {dayDetails.notes.length > 1 && (
-                    <Link 
-                      to={`/calendar?date=${selectedDate.toISOString().split('T')[0]}`}
-                      className="block text-xs text-blue-500 hover:text-blue-600 dark:hover:text-blue-400 text-center py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors duration-200"
-                    >
-                      +{dayDetails.notes.length - 1} not daha
-                    </Link>
-                  )}
-                </div>
-              ) : (
-                <div className="text-center py-6 bg-gray-50 dark:bg-gray-700/50 rounded-xl border border-gray-200/50 dark:border-gray-600/50">
-                  <StickyNote size={20} className="text-gray-400 mx-auto mb-2" />
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-                    Bu gün için not yok
-                  </p>
-                  <button className="px-4 py-2 text-xs bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors duration-200">
-                    Not Ekle
-                  </button>
-                </div>
-              )
-            ) : null}
+            ) : (
+              <div className="text-center py-6 bg-gray-50 dark:bg-gray-700/50 rounded-xl border border-gray-200/50 dark:border-gray-600/50">
+                <CheckCircle2 size={20} className="text-gray-400 mx-auto mb-2" />
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+                  Bu gün için görev yok
+                </p>
+                <button className="px-4 py-2 text-xs bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors duration-200">
+                  Görev Ekle
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

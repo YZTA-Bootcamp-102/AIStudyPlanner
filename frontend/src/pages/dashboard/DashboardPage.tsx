@@ -3,11 +3,13 @@ import { Calendar as CalendarIcon, CheckCircle2, Clock, ListTodo, MessageSquareP
   ChevronRight, Plus, Send, Rocket, Target, TrendingUp, Pencil, Trash2, BookOpen, Timer, Bot, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Calendar from 'react-calendar';
-import { format } from 'date-fns';
+import { format, parseISO, isSameDay } from 'date-fns';
 import { tr } from 'date-fns/locale';
 import 'react-calendar/dist/Calendar.css';
 import DashboardHeader from '../../components/DashboardHeader';
 import { Helmet } from 'react-helmet-async';
+import { generateCalendarData, mockTasks } from '../../data/mockCalendarData';
+import type { CalendarTask } from '../../types/calendar';
 
 // Lazy load all dashboard widgets
 const StatsSection = lazy(() => import('../../components/dashboard/Stats/StatsSection'));
@@ -75,35 +77,20 @@ const DashboardPage = () => {
     { title: 'Hedef Belirle', icon: Target, color: 'purple' },
   ];
 
-  const getCurrentTime = () => {
-    const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    return `${hours}:${minutes}`;
-  };
-
-  const [todaysTasks, setTodaysTasks] = useState([
-    { id: 1, title: 'Matematik ödevini tamamla', completed: false, time: '10:00' },
-    { id: 2, title: 'Fizik sınavına hazırlan', completed: false, time: '11:30' },
-    { id: 3, title: 'Kimya laboratuvar raporunu yaz', completed: false, time: '13:00' },
-    { id: 4, title: 'İngilizce kelime çalış', completed: false, time: '14:30' },
-    { id: 5, title: 'Biyoloji sunumunu hazırla', completed: false, time: '15:00' },
-    { id: 6, title: 'Tarih konularını tekrar et', completed: false, time: '16:30' },
-    { id: 7, title: 'Edebiyat ödevini kontrol et', completed: false, time: '17:00' },
-  ]);
+  // Bugünün görevlerini al
+  const todaysTasks = mockTasks.filter(task => 
+    isSameDay(parseISO(task.startTime), new Date())
+  );
 
   // İstatistikleri hesapla
   const completedTasks = todaysTasks.filter(task => task.completed);
   const pendingTasks = todaysTasks.filter(task => !task.completed);
-  const completionRate = (completedTasks.length / todaysTasks.length) * 100;
+  const completionRate = todaysTasks.length > 0 ? (completedTasks.length / todaysTasks.length) * 100 : 0;
 
   // Zamanı geçmiş görevleri hesapla
-  const overdueTaskCount = todaysTasks.filter(task => {
-    const [hours, minutes] = task.time.split(':').map(Number);
-    const taskTime = new Date();
-    taskTime.setHours(hours, minutes);
-    return !task.completed && taskTime < new Date();
-  }).length;
+  const overdueTaskCount = todaysTasks.filter(task => 
+    !task.completed && new Date() > parseISO(task.startTime)
+  ).length;
 
   // Örnek veriler
   const dailyStats = {
@@ -112,27 +99,19 @@ const DashboardPage = () => {
     remainingTasks: pendingTasks.length,
     completionRate: completionRate,
     overdueTaskCount: overdueTaskCount,
-    studyTime: "4s 30dk",
     focusRate: 85
   };
 
-  const calendarData = {
-    "2024-03-20": 3,
-    "2024-03-21": 2,
-    "2024-03-22": 4,
-  };
+  const calendarData = generateCalendarData();
 
   const initialNotes = [
     { id: 1, text: "Matematik sınavı için formülleri tekrar et", date: "2024-03-20" },
     { id: 2, text: "Fizik projesi için kaynak araştırması yap", date: "2024-03-21" }
   ];
 
-  const handleTaskToggle = (taskId: number) => {
-    setTodaysTasks(tasks =>
-      tasks.map(task =>
-        task.id === taskId ? { ...task, completed: !task.completed } : task
-      )
-    );
+  const handleTaskToggle = (taskId: string) => {
+    // Not: Backend olmadığı için şimdilik bir şey yapmıyoruz
+    console.log('Task toggle:', taskId);
   };
 
   const addNote = () => {

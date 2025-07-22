@@ -1,46 +1,49 @@
 import { useState } from 'react';
 import { ListTodo, ChevronRight, Clock, Eye, EyeOff, AlertCircle, Check, CheckCircle2, Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
-interface Task {
-  id: number;
-  title: string;
-  completed: boolean;
-  time: string;
-}
+import { mockTasks } from '../../../data/mockCalendarData';
+import { format, parseISO, isSameDay, isAfter } from 'date-fns';
+import type { CalendarTask } from '../../../types/calendar';
 
 interface TasksSectionProps {
-  tasks: Task[];
-  onTaskToggle: (taskId: number) => void;
+  tasks?: CalendarTask[]; // Optional, if not provided will use today's tasks from mockTasks
+  onTaskToggle: (taskId: string) => void;
 }
 
 const MAX_VISIBLE_TASKS = 5;
 
-const TasksSection = ({ tasks, onTaskToggle }: TasksSectionProps) => {
+const TasksSection = ({ tasks: propTasks, onTaskToggle }: TasksSectionProps) => {
   const [showCompleted, setShowCompleted] = useState(false);
-  const [animatingTaskId, setAnimatingTaskId] = useState<number | null>(null);
+  const [animatingTaskId, setAnimatingTaskId] = useState<string | null>(null);
+  
+  // Eğer prop olarak tasks verilmemişse, bugünün görevlerini mockTasks'dan al
+  const tasks = propTasks || mockTasks.filter(task => 
+    isSameDay(parseISO(task.startTime), new Date())
+  );
   
   const completedTasks = tasks.filter(task => task.completed);
   const pendingTasks = tasks.filter(task => !task.completed);
   const totalTasks = tasks.length;
-  const completionPercentage = (completedTasks.length / totalTasks) * 100;
+  const completionPercentage = totalTasks > 0 ? (completedTasks.length / totalTasks) * 100 : 0;
 
   const visibleTasks = showCompleted ? tasks : pendingTasks;
   const hasMoreTasks = visibleTasks.length > MAX_VISIBLE_TASKS;
   const displayTasks = visibleTasks.slice(0, MAX_VISIBLE_TASKS);
 
   // Zamanı geçmiş görevleri kontrol et
-  const isOverdue = (time: string) => {
-    const [hours, minutes] = time.split(':').map(Number);
-    const taskTime = new Date();
-    taskTime.setHours(hours, minutes);
-    return taskTime < new Date();
+  const isOverdue = (timeStr: string) => {
+    const taskTime = parseISO(timeStr);
+    return isAfter(new Date(), taskTime);
   };
 
-  const handleTaskToggle = (taskId: number) => {
+  const handleTaskToggle = (taskId: string) => {
     setAnimatingTaskId(taskId);
     onTaskToggle(taskId);
     setTimeout(() => setAnimatingTaskId(null), 1000); // Animasyon süresi sonunda reset
+  };
+
+  const formatTaskTime = (timeStr: string): string => {
+    return format(parseISO(timeStr), 'HH:mm');
   };
 
   return (
@@ -113,7 +116,7 @@ const TasksSection = ({ tasks, onTaskToggle }: TasksSectionProps) => {
         {displayTasks.length > 0 ? (
           <>
             {displayTasks.map((task) => {
-              const overdue = isOverdue(task.time);
+              const overdue = isOverdue(task.startTime);
               const isAnimating = animatingTaskId === task.id;
               return (
                 <div
@@ -168,7 +171,7 @@ const TasksSection = ({ tasks, onTaskToggle }: TasksSectionProps) => {
                         ? 'text-gray-400 dark:text-gray-500' 
                         : overdue ? 'text-red-500 dark:text-red-400' : 'text-gray-600 dark:text-gray-400'
                     }`}>
-                      {task.time}
+                      {formatTaskTime(task.startTime)}
                     </span>
                   </div>
                 </div>

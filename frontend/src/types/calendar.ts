@@ -1,6 +1,6 @@
-export type RepeatType = 'none' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'custom';
+export type RepeatType = 'none' | 'daily' | 'weekly' | 'weekdays' | 'monthly' | 'yearly' | 'custom';
 export type PriorityType = 'low' | 'medium' | 'high';
-export type CategoryType = 'work' | 'personal' | 'meeting' | 'event' | 'other';
+export type CategoryType = 'study' | 'exam' | 'project' | 'homework' | 'lab' | 'language' | 'reading' | 'other';
 
 export interface Subtask {
   id: string;

@@ -1,4 +1,4 @@
-import { CheckCircle2, Target, Timer, BookOpen, AlertCircle } from 'lucide-react';
+import { CheckCircle2, Target, AlertCircle } from 'lucide-react';
 import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';
 
@@ -23,7 +23,6 @@ interface DailyStats {
   remainingTasks: number;
   completionRate: number;
   overdueTaskCount: number;
-  studyTime: string;
   focusRate: number;
 }
 
@@ -46,10 +45,10 @@ const StatsSection = ({ dailyStats }: StatsSectionProps) => {
           </div>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl p-4">
             <div className="flex items-center justify-between mb-2">
-              <BookOpen size={20} className="text-blue-500" />
+              <Target size={20} className="text-blue-500" />
               <span className="text-xl font-bold text-blue-600 dark:text-blue-400">
                 {dailyStats.totalTasks}
               </span>
@@ -92,18 +91,6 @@ const StatsSection = ({ dailyStats }: StatsSectionProps) => {
             </div>
             <p className="text-sm text-red-600 dark:text-red-400 font-medium">
               Süresi Geçen
-            </p>
-          </div>
-
-          <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-xl p-4">
-            <div className="flex items-center justify-between mb-2">
-              <Timer size={20} className="text-purple-500" />
-              <span className="text-xl font-bold text-purple-600 dark:text-purple-400">
-                {dailyStats.studyTime}
-              </span>
-            </div>
-            <p className="text-sm text-purple-600 dark:text-purple-400 font-medium">
-              Çalışma Süresi
             </p>
           </div>
         </div>
