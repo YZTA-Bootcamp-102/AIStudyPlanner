@@ -54,7 +54,7 @@ class DailyTask(Base):
     """
     __tablename__ = 'daily_tasks'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
     title = Column(String)  # Görev başlığı
     description = Column(Text)  # Görev açıklaması
     date = Column(DateTime)  # Görev günü
