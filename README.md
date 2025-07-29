@@ -48,7 +48,6 @@ Kullanıcılar, günlük olarak AI tarafından oluşturulan planlara göre çal�
 | **Miray Tepe** | Scrum Master / Backend Developer / AI Developer | [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/MirayTepe) [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/miraytepe/) |
 | **Mehmet Can Ergüden** | Product Owner / Frontend Developer | [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/mehmeterguden) [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mehmeterguden/) |
 | **Emre Saygın** | Database Developer / Backend Developer / AI Developer | [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/emresaygin59) [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/emresaygin/) |
-| **Muhammed Kasım Oğuz**| Backend Developer / AI Developer | [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/kasimoguzz) [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/muhammed-kasim-oguz/) |
 
 
 ---
@@ -99,7 +98,7 @@ Kullanıcılar, günlük olarak AI tarafından oluşturulan planlara göre çal�
 |--------|---------------|------------|
 | [Sprint 1](./sprintOne/README.md) |20.06 - 06.07 |`./bootcampFiles/sprintOne/` |
 | [Sprint 2](./sprintTwo/README.md) | 07.07 - 20.07 |`./bootcampFiles/sprintTwo/` |
-| Sprint 3 |  | `./bootcampFiles/sprintThree/` |
+| [Sprint 3](./sprintThree/README.md) | 20.07 - 03.08 | `./bootcampFiles/sprintThree/` |
 
 ---
 
