@@ -9,6 +9,12 @@ Yapay zeka destekli **öğrenme planlayıcınız**: Hedeflerinize uygun, akıll�
 
 **Proje Tüzüğü:** [Proje Tüzüğü (PDF)](./ProjectFiles/FocusFlowProjeTüzüğü.pdf)
 
+**FocusFlow Tanıtım Videosu:** [Tanıtım Videosu](https://www.youtube.com/watch?v=BB0J-Gso63c&ab_channel=EmreSayg%C4%B1n)
+
+**Sprint Planları:** [Sprint Planları](https://github.com/YZTA-Bootcamp-102/AIStudyPlanner/blob/ai-destekli-haftalik-retrospektif/ProjectFiles/SprintPlanlar%C4%B1.pdf)
+
+**Product Backlog User Storyleri:** [Product Backlog User Storyleri](https://github.com/YZTA-Bootcamp-102/AIStudyPlanner/blob/ai-destekli-haftalik-retrospektif/ProjectFiles/userstory.pdf)
+
 ---
 
 ## İçindekiler
