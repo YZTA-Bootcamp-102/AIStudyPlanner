@@ -9,11 +9,11 @@ Yapay zeka destekli **öğrenme planlayıcınız**: Hedeflerinize uygun, akıll�
 
 **Proje Tüzüğü:** [Proje Tüzüğü (PDF)](./ProjectFiles/FocusFlowProjeTüzüğü.pdf)
 
-**FocusFlow Tanıtım Videosu:** [Tanıtım Videosu](https://www.youtube.com/watch?v=BB0J-Gso63c&ab_channel=EmreSayg%C4%B1n))
+**FocusFlow Tanıtım Videosu:** [Tanıtım Videosu](https://www.youtube.com/watch?v=BB0J-Gso63c&ab_channel=EmreSayg%C4%B1n)
 
 **Sprint Planları:** [Sprint Planları](./ProjectFiles/SprintPlanları.pdf)
 
-**Product Backlog User Storyleri:** [Product Backlog User Storyleri](./ProjectFiles/Product Backlog User Story’leri.pdf)
+**Product Backlog User Storyleri:** [Product Backlog User Storyleri](./ProjectFiles/ProductBacklogUserStory’leri.pdf)
 
 ---
 
