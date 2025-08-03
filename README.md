@@ -98,7 +98,7 @@ Kullanıcılar, günlük olarak AI tarafından oluşturulan planlara göre çal�
 |--------|---------------|------------|
 | [Sprint 1](./sprintOne/README.md) |20.06 - 06.07 |`./bootcampFiles/sprintOne/` |
 | [Sprint 2](./sprintTwo/README.md) | 07.07 - 20.07 |`./bootcampFiles/sprintTwo/` |
-| [Sprint 3] (https://github.com/YZTA-Bootcamp-102/AIStudyPlanner/blob/ai-destekli-haftalik-retrospektif/sprintThree%2FREADME.md)| 21.07 - 03.08 | `./bootcampFiles/sprintThree/` |
+| [Sprint 3](https://github.com/YZTA-Bootcamp-102/AIStudyPlanner/blob/ai-destekli-haftalik-retrospektif/sprintThree%2FREADME.md)| 21.07 - 03.08 | `./bootcampFiles/sprintThree/` |
 
 ---
 
