@@ -1,0 +1,7 @@
+__pycache__/
+.env
+*.sqlite3
+*.pyc
+backend/firebase/*.json
+# Google Calendar secret ve token
+backend/google_calendar_integration/*.json
