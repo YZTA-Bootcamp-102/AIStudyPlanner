@@ -111,13 +111,13 @@ Her bir kalan backlog öğesinin göreceli karmaşıklığı, tamamlanması gere
 
 | Tarih | Gelişme |
 |------|---------|
-|  |  |
-|  |  |
-|  |  |
-|  |  |
-|  |  |
-|  |  |
-|  |  |
+| 21.07 | Önceki sprintten kalan Günlük Görev Planlayıcısı için arayüzde gün bazlı görüntüleme işlevine başlandı. PB-09 (AI Destekli Haftalık Retrospektif) için haftalık veri analizi ve raporlama altyapısı üzerinde çalışıldı. |
+| 23.07 | 	Takvim Entegrasyonu için bekleyen ön uç entegrasyonları tamamlanarak Google Takvim ile senkronizasyon testleri yapıldı. PB-06 (AI Çalışma İpuçları) için temel AI modeli oluşturuldu ve kişiselleştirilmiş ipuçları üretimi başladı. |
+| 25.07 | PB-08 (Sprint Bazlı Planlama Motoru) için sprint hedeflerine göre görev dağılımı ve önceliklendirme motoru geliştirildi. PB-09'un görsel arayüzü tasarlandı ve ilk prototip hazırlandı. |
+| 27.07 | PB-06 için kullanıcı geri bildirim mekanizması (beğenme/beğenmeme) eklendi ve ön uç entegrasyonu tamamlandı. PB-08'in arka uçtaki sprint oluşturma ve düzenleme işlevleri bitirildi. |
+| 29.07 | PB-09'un arka uç ile entegrasyonu tamamlandı ve tam fonksiyonelliği sağlandı. PB-09 için ön uç görselleştirilmesi ve manuel ayarlamalar için arayüz geliştirmeleri başladı. |
+| 01.08 | PB-08'in entegrasyonu üzerine çalışıldı. PB-06 ve PB-09 için son kontroller yapıldı ve sprint hedeflerinin tamamlandığı teyit edildi. |
+| 03.08 | Sprint tamamlandı. Tanıtım videosu hazırlandı. Tüm hedeflenen backlog maddelerinin (PB-06, PB-08, PB-09) büyük ölçüde tamamlandığı gözden geçirildi. PB-08'deki küçük arayüz eksiklikleri not edildi.  |
 
 ---
 
@@ -128,17 +128,70 @@ Bu sprintte tamamlanan Ürün Backlog öğeleri ve bunların projeye katkıları
 | Blaclog ID | Başlık | Tahmini Efor |Durum |
 |----------|-------------|-------------|-------------|
 | PB-06 | AI Çalışma İpuçları | 5 | Tamamlandı |
-| PB-08 | Sprint Planlama Motoru | 5 | Tamamlandı |
+| PB-08 | Sprint Planlama Motoru | 5 | Kısmen Tamamlandı |
 | PB-09 | AI Destekli Haftalık Retrospektif | 3 | Tamamlandı |
-| **Toplam** | **13** |
+| **Toplam** | **8** |
 
 ### Ekran Görüntüleri
 
 <details>
   <summary>Ekran Görüntüleri</summary>
 
-   ### Etkinlik Ekleme Testi
-  ![Kayıt Sayfası](./SprintTwoFiles/create_event_test.png)
+   ### FastAPI
+  ![FastAPI](./SprintThreeFiles/fastapi1.jpg)
+
+  ### FastAPI 2
+  ![FastAPI2](./SprintThreeFiles/fastapi2.jpg)
+
+  ### Schemas
+  ![Schemas](./SprintThreeFiles/schemas1.jpg)
+
+  ### Schemas 2
+  ![Schemas 2](./SprintThreeFiles/schemas2.jpg)
+
+  ### Schemas 2
+  ![Schemas 2](./SprintThreeFiles/schemas2.jpg)
+
+  ### Anasayfa
+  ![Anasayfa](./SprintThreeFiles/homepage.jpg)
+  
+  ### Hedef Ekleme
+  ![Hedef Ekleme](./SprintThreeFiles/create_hedef.jpg)
+
+  ### Hedef Ekleme 2
+  ![Hedef Ekleme 2](./SprintThreeFiles/create_hedef1.jpg)
+
+  ### Hedef Sayfası
+  ![Hedef Sayfası](./SprintThreeFiles/hedeflerim_page.jpg)
+
+  ### Hedefler
+  ![Hedefler](./SprintThreeFiles/hedefler.jpg)
+
+  ### Sprint Planı
+  ![Sprint Planı](./SprintThreeFiles/sprint_plani.jpg)
+
+  ### AI Asitan
+  ![AI Asitan](./SprintThreeFiles/ai_asistan.jpg)
+
+  ### Haftalık İnceleme
+  ![Haftalık İnceleme](./SprintThreeFiles/haftalik_inceleme.jpg)
+
+  ### Ayarlar
+  ![Ayarlar](./SprintThreeFiles/ayarlar.jpg)
+
+  ### PB-09 Test 1
+  ![PB-09 Test 1](./SprintThreeFiles/comment_adn_improvements.png)
+
+  ### PB-09 Test 2
+  ![PB-09 Test 2](./SprintThreeFiles/current_week_stats.png)
+
+  ### PB-09 Test 3
+  ![PB-09 Test 3](./SprintThreeFiles/weekly_comprassion.png)
+
+  ### PB-09 Test 4
+  ![PB-09 Test 4](./SprintThreeFiles/feedback.png)
+
+
 
 
   
@@ -148,39 +201,81 @@ Bu sprintte tamamlanan Ürün Backlog öğeleri ve bunların projeye katkıları
 
 ### Sprint Review
 
-Sprint İncelemesi toplantısında, paydaşlarımızla bir araya gelerek bu sprintte tamamladığımız temel fonksiyonları ve kaydettiğimiz ilerlemeleri canlı demolarla sunduk. Odak noktamız olan günlük görev planlayıcı, takvim entegrasyonu, görev hatırlatma servisi ve öğrenme ilerlemesi ölçümü modülleri ayrıntılı bir şekilde tanıtıldı.
+Sprint İncelemesi toplantısında, proje kapsamında son kez ekip arkadaşlarımızla bir araya gelerek bu sprintte tamamladığımız tüm işlevleri ve arayüzleri canlı demolarla sunduk. Öncelikli hedefimiz, bir önceki sprintte takım üyesi eksikliği nedeniyle tamamlanamayan görevleri bitirmek ve yeni modüllerin fonksiyonel olarak entegrasyonunu sağlamaktı. Tüm bu görevler başarıyla tamamlandı ve sistemin geneline entegre edildi.
 
-- **Başarılar ve Öne Çıkanlar:**
-  - **Takvim Entegrasyonu (PB-03):** Google Takvim ile sorunsuz entegrasyon ve görevlerin otomatik olarak takvime eklenmesi özelliği, uygulamanın kullanışlılığını artırması açısından olumlu geri bildirimler aldı.
-   
-  - **Görev Hatırlatma Servisi (PB-04):** Tamamen işlevsel olması ve kullanıcıların bildirim tercihlerini yönetebilmesi, paydaşlar tarafından büyük beğeniyle karşılandı.
-    
-  - **Öğrenme İlerlemesi Ölçümü (PB-05):** Gelişim çubukları ve otomatik AI yorumları gibi özellikler, kullanıcının motivasyonunu artırma potansiyeli nedeniyle takdir edildi.
+### Başarılar ve Öne Çıkanlar:
 
-- **Alınan Geri Bildirimler ve Öneriler:**
-  - **Kullanıcı Arayüzü İyileştirmeleri:** Bazı arayüz elementlerinde küçük estetik dokunuşlar ve daha sezgisel akışlar üzerine öneriler alındı. Özellikle görev planlayıcının (PB-02) görsel sunumu konusunda daha fazla esneklik istendi.
+#### PB-06 — AI Çalışma İpuçları Sistemi:
 
-  - **Performans Optimizasyonu:** Özellikle büyük veri setleriyle çalışıldığında takvim entegrasyonunun ve ilerleme ölçümünün yüklenme süreleri hakkında küçük endişeler dile getirildi. Bu, gelecek sprintlerde performans optimizasyonlarına odaklanma ihtiyacını ortaya koydu.
+Kullanıcıların odaklanma ve zaman yönetimi alışkanlıklarını güçlendirmek amacıyla geliştirilen bu modül, yapay zekâ destekli öneri altyapısıyla tamamlandı. Kullanıcının önceki günlerdeki davranışlarına dayalı olarak oluşturulan kişisel öneriler, sade ve sezgisel bir arayüzle sunuluyor.
 
-  - **AI Asistanı Entegrasyonu:** Bir önceki sprintte tasarımı yapılan AI Asistanı'nın, bu sprintte tamamlanan modüllerle daha derinlemesine nasıl entegre edilebileceği konusunda fikir alışverişinde bulunuldu. Özellikle görev planlama ve öğrenme tavsiyelerinde AI'ın rolünün artırılması önerildi.
+* Günlük çalışma sürelerinin takibi sağlandı.
+* AI önerileri, kullanıcıya sabah saatlerinde veya çalışmaya başlamadan önce gösteriliyor.
+* “Uyguladım” ve “İlgimi çekmedi” seçenekleriyle kullanıcıdan geri bildirim toplanıyor.
+* Alınan tepkiler, sonraki önerilerin kişiselleştirilmesinde kullanılıyor.
 
+**Demo sırasında öne çıkan detaylar:**
 
+* AI kartları sade tasarımı ve dikkat dağıtmayan renk geçişleriyle kullanıcı odaklı deneyim sağladı.
+* Öneri üzerine gelindiğinde çıkan kısa açıklamalar, sistemin nasıl çalıştığına dair kullanıcıya anlık bilgi sundu.
+
+---
+
+#### PB-08 — Sprint Bazlı Planlama Motoru:
+
+Kullanıcının öğrenme sürecini bir haftalık sprint yapısında planlamasını sağlayan bu modül, kişisel hedef takibi açısından kritik rol üstleniyor.
+
+* Öğrenme modülleri, haftalık olarak görev listelerine ayrıldı.
+* Haftanın başında “Hedeflerin” başlığı altında kullanıcıya görevleri gösteriliyor.
+* Görevler tamamlandıkça sistemde ilerleme yüzdesi güncelleniyor.
+* Sprint bitiminde kullanıcıya görsel özet sunuluyor.
+
+**Demo sırasında öne çıkan detaylar:**
+
+* Görev kutularında yapılan animasyonlu geçişler, kullanıcıyı motive etmeye yönelik olarak dikkat çekti.
+* Entegrasyon problemlerinden kaynaklı bazı kısımlar tam anlamıyla tamamlanamadı.
+
+---
+
+#### PB-09 — AI Destekli Haftalık Retrospektif:
+
+Kullanıcının haftalık görev tamamlama performansına göre yapay zekâ destekli geri bildirimler sunan bu modül, öğrenme sürecine kişisel farkındalık kazandırmayı amaçlıyor.
+
+* Haftalık görev verileri analiz edilerek kişiselleştirilmiş yorumlar oluşturuluyor.
+* Kullanıcının gelişime açık alanları sistem tarafından öne çıkarılıyor.
+* Önceki haftayla karşılaştırmalı bir performans ekranı sunuluyor.
+* Kullanıcıya “Bu yorum faydalı mıydı?” seçeneğiyle sistemin gelişimi için geri bildirim toplanıyor.
+
+**Demo sırasında öne çıkan detaylar:**
+
+* Yorum kartlarının altına eklenen mini grafikler, hem sözel hem görsel geri bildirim sağladı.
+* Kullanıcının ilerleme çizelgesi, önceki haftayla kıyaslama yaparak öğrenme alışkanlıklarının gelişimini açıkça gösterdi.
+* Arayüzde kullanılan ikonlar ve renk kodlamaları, yorumların duygusal tonunu destekleyecek şekilde dengeli yerleştirilmişti.
+
+---
+
+### Alınan Geri Bildirimler ve Gözlemler:
+
+* **Arayüz Akıcılığı:** Tüm yeni modüllerde kullanılan sade tasarım dili, kullanıcı deneyimi açısından oldukça beğenildi. Özellikle AI kartlarının sunumu konusunda olumlu yorumlar alındı.
+* **Modüller Arası Uyum:** PB-06, PB-08 ve PB-09 modüllerinin birbiriyle içerik akışı açısından tutarlı olması, sistemin bütünlüğünü artırdığı yönünde değerlendirmelere yol açtı.
+* **Kullanıcı Motivasyonu:** Görsel geribildirimlerin ve haftalık özet ekranlarının, kullanıcı motivasyonunu artırıcı etkiye sahip olduğu belirtildi.
 ---
 
 ### Sprint Retrospective
 
-Bu sprintin sonunda, takım olarak kapsamlı bir retrospektif toplantısı gerçekleştirdik. Bu toplantıda, bu sprintte nelerin yolunda gittiğini, karşılaştığımız zorlukları ve gelecek sprintler için nasıl daha iyi bir performans sergileyebileceğimizi detaylı bir şekilde analiz ettik. Amacımız, sürekli öğrenen ve gelişen bir ekip olmak.
+Bu sprintin sonunda, takım olarak son kez retrospektif toplantımızı gerçekleştirdik. Geriye dönüp baktığımızda, hem teknik hem de organizasyonel anlamda önemli bir dönemi geride bıraktığımızı gördük.
 
-- **Neler İyi Gitti?**
-  - **Net Odak ve Hedef Tamamlanması:** Bu sprintte belirlediğimiz görev planlayıcı, takvim entegrasyonu ve öğrenme takibi ana hedeflerine tam olarak ulaşabildik. Takımın tüm backlog maddelerine aynı anda odaklanabilmesi, verimli bir ilerleme sağladı.
-  - **Güçlü Takım İçi İletişim:** Daily Scrum'lar ve sürekli iletişim kanalları, ekip üyeleri arasındaki bilgi akışını mükemmel düzeyde tuttu. Karşılaşılan engellerin anında paylaşılması ve çözüm önerilerinin birlikte geliştirilmesi, sprintin sorunsuz ilerlemesinde kilit rol oynadı.
-  - **Teknik Borç Yönetimi:** Entegrasyon süreçlerinde ortaya çıkan bazı küçük teknik borçları anında ele alıp çözümleyerek, projenin sağlamlığını koruduk. Bu, gelecekte ortaya çıkabilecek daha büyük sorunların önüne geçti.
-  - **Kaliteye Odaklanma:** Teslim ettiğimiz her bir modülde (özellikle PB-04 ve PB-03) yüksek kalite standartlarını korumayı başardık. Hatasız ve kullanıcı dostu arayüzler sunmak, takımın önceliği oldu.
+#### Neler İyi Gitti?
 
-- **Neler Daha İyi Yapılabilirdi?**
-  - **Geliştirme Ortamı İstikrarsızlığı:** Sprintin bazı dönemlerinde geliştirme ortamımızda beklenmedik istikrarsızlıklar (örneğin bağımlılık çakışmaları veya yerel kurulum sorunları) yaşandı. Bu durum, bazı takım üyelerinin başlangıçta zaman kaybetmesine neden oldu.
-  - **Performans Testlerine Daha Fazla Odaklanma:** Modüllerin fonksiyonel olarak çalışması sağlanırken, özellikle yüksek veri hacimlerinde performans testlerine yeterince zaman ayrılamadı. Bu, gelecekte potansiyel performans darboğazlarına yol açabilir.
-  - **Takım Kadrosu Değişikliği:** Sprintin sonlarına doğru takım üyelerimizden birinin katılım eksikliği nedeniyle ekipten ayrılması, gelecek sprintler için mevcut takım kapasitemizi etkileyecek bir durumdur. Bu durum, takımın kalan üyeleri üzerindeki potansiyel iş yükünü artırabilir ve yeni bir denge kurulmasını gerektirebilir.
+* **Eksik Görevlerin Tamamlanması:** 2. sprintte tamamlanamayan görevler, bu sprintte başarıyla kapatıldı. Böylece backlog’da yer alan tüm iş kalemleri tamamlanmış oldu.
+* **Uyumlu Takım Dinamiği:** Takım kapasitesindeki düşüşe rağmen, kalan üyelerin birbirini destekleyerek ilerlemesi sprintin genel verimliliğini olumlu etkiledi.
+* **Kaliteli Son Dokunuşlar:** Her modül, yalnızca işlevsel değil; aynı zamanda kullanıcı odaklı, şık ve tamamlanmış bir şekilde sunuldu.
+
+#### Neler Daha İyi Olabilirdi?
+
+* **Frontend–Backend Entegrasyonu:** Sprintin başında yaşanan bazı bağlantı sorunları, arayüz testlerinde zaman kaybına neden oldu. Bu entegrasyonlar sonradan başarıyla tamamlandı, ancak ilk günlerdeki verim düşüşü hissedildi.
+* **Kapasite Planlaması:** Takım üyesinin ayrılmasıyla birlikte iş yükü yeniden dağıtıldı. Bu durum sprintin ortasında kısa süreli bir adaptasyon süreci gerektirdi. Bu sebeple bazı kısımlar tam anlamıyla bitiremedik.
+
 
 
 ---
