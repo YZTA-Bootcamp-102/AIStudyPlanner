@@ -14,7 +14,7 @@ class Settings:
     SECRET_KEY: str = os.getenv("SECRET_KEY", "defaultsecret")
     REFRESH_SECRET_KEY: str = os.getenv("REFRESH_SECRET_KEY", "refreshsecret")
     ALGORITHM: str = os.getenv("ALGORITHM", "HS256")
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 60))
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 180))
     REFRESH_TOKEN_EXPIRE_DAYS: int = int(os.getenv("REFRESH_TOKEN_EXPIRE_DAYS", 7))
 
     # E-posta gönderimi için SMTP ayarları

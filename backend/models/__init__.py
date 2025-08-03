@@ -14,3 +14,6 @@ from .study_session import StudySession
 from .mindmap_node import MindmapNode
 from .ai_conversation import AIConversation
 from .notification_settings import NotificationSettings
+from .daily_note import DailyNote
+from .daily_subtask import DailySubtask
+from .sprint_week import SprintWeek

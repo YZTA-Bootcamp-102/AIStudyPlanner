@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends, Query
 from pydantic import BaseModel
 from datetime import datetime
-from typing import Optional, Any
+from typing import Optional, Any, Dict
 
 from googleapiclient.errors import HttpError
 from backend.crud.calendar_integration import (
@@ -9,7 +9,7 @@ from backend.crud.calendar_integration import (
     update_event, delete_event
 )
 from backend.routers.auth import get_me as get_current_user
-
+import logging
 router = APIRouter(prefix="/calendar", tags=["Google Calendar"])
 
 
@@ -33,20 +33,22 @@ def _handle_http_error(err: HttpError):
 
 
 @router.post("/create-event")
-def create_calendar_event(
-    event: EventRequest,
-    current_user: Any = Depends(get_current_user)
-):
+def create_calendar_event(event: EventRequest, current_user: Any = Depends(get_current_user)):
     try:
-        return create_event(
+        logging.info(f"Create event request: {event.json()}")
+        result = create_event(
             summary=event.summary,
             description=event.description,
             start_time=event.start_time.isoformat(),
             end_time=event.end_time.isoformat()
         )
+        logging.info(f"Create event result: {result}")
+        return result
     except HttpError as err:
+        logging.error(f"Google API HttpError: {err.content}")
         _handle_http_error(err)
     except Exception as err:
+        logging.error(f"Exception in create_calendar_event: {err}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(err))
 
 
@@ -73,7 +75,7 @@ def update_calendar_event(
     update_req: EventUpdateRequest,
     current_user: Any = Depends(get_current_user)
 ):
-    data: dict[str, Any] = {}
+    data: Dict[str, Any] = {}
     if update_req.summary is not None:
         data['summary'] = update_req.summary
     if update_req.description is not None:

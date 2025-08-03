@@ -24,13 +24,14 @@ class SprintPlan(Base):
     __tablename__ = 'sprint_plans'
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'), index=True)
-    learning_goal_id = Column(Integer, ForeignKey('learning_goals.id'), index=True)
+    user_id = Column(Integer, ForeignKey('users.id'), index=True, nullable=False)
+    learning_goal_id = Column(Integer, ForeignKey('learning_goals.id'), index=True, nullable=True)
     start_date = Column(Date, nullable=False)
     end_date = Column(Date, nullable=False)
     objectives = Column(Text, nullable=False)
-    summary = Column(Text)
+    summary = Column(Text, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     user = relationship("User", back_populates="sprint_plans")
+    weeks = relationship("SprintWeek", back_populates="sprint_plan", cascade="all, delete-orphan")

@@ -1,24 +1,23 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from datetime import datetime
-
 from backend.database import Base
 
 class CalendarIntegration(Base):
     """
-        Kullanıcının takvim entegrasyonlarını temsil eder (örneğin Google Calendar).
+    Kullanıcının takvim entegrasyonlarını temsil eder (örn. Google Calendar).
 
-        Alanlar:
-            id: Entegrasyon ID'si.
-            user_id: İlgili kullanıcı.
-            provider: Takvim sağlayıcısı (örn. Google, Outlook).
-            calendar_id: Entegre edilen takvimin ID'si.
-            sync_token: Eşitleme için kullanılan token.
-            created_at: Oluşturulma tarihi.
-            updated_at: Güncellenme tarihi.
+    Alanlar:
+        id: Entegrasyon ID'si.
+        user_id: İlgili kullanıcı.
+        provider: Takvim sağlayıcısı (Google, Outlook vb).
+        calendar_id: Takvim ID'si.
+        sync_token: Eşitleme token'ı.
+        created_at: Oluşturulma tarihi.
+        updated_at: Güncellenme tarihi.
 
-        İlişkiler:
-            user: Entegrasyonun ait olduğu kullanıcı.
+    İlişkiler:
+        user: Entegrasyonun ait olduğu kullanıcı.
     """
 
     __tablename__ = 'calendar_integrations'

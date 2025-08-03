@@ -30,6 +30,7 @@ class LearningGoal(Base):
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'), index=True)
+    title = Column(String(200))
     goal_text = Column(Text, nullable=False)
     interest_areas = Column(String(200))
     current_knowledge_level = Column(String(50))
@@ -37,12 +38,13 @@ class LearningGoal(Base):
     target_end_date = Column(Date, nullable=True)
     is_active = Column(Boolean, default=True)
     is_achieved = Column(Boolean, default=False)
+    progress = Column(Integer, default=0)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
 
     user = relationship("User", back_populates="learning_goals")
+    daily_tasks = relationship("DailyTask", back_populates="learning_goal")
     learning_modules = relationship("LearningModule", back_populates="learning_goal")
     study_sessions = relationship("StudySession", back_populates="learning_goal")
     ai_conversations = relationship("AIConversation", back_populates="learning_goal")
-    daily_tasks = relationship("DailyTask", back_populates="learning_goal")
     level_answers = relationship("LevelAnswer", back_populates="learning_goal")

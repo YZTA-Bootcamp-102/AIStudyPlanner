@@ -21,6 +21,7 @@ from backend.routers.ai_hint import router as ai_hint_router
 from backend.routers.notification_settings import router as notification_settings_router
 from backend.routers.ai_conversation import router as ai_conversation_router
 from backend.routers.module_completion import router as module_completion_router
+from backend.routers.task_suggestion import router as task_sugguestion_router
 
 
 
@@ -54,4 +55,6 @@ app.include_router(ai_conversation_router)
 app.include_router(ai_hint_router)
 app.include_router(module_completion_router)
 app.include_router(notification_settings_router)
+app.include_router(task_sugguestion_router)
 
+Base.metadata.create_all(bind=engine)

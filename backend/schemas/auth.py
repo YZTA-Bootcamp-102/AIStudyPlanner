@@ -14,3 +14,5 @@ class PasswordResetRequest(BaseModel):
 class PasswordResetForm(BaseModel):
     reset_code: str                    # Kullanıcıya gönderilen sıfırlama kodu
     new_password: constr(min_length=8) # Yeni şifre (min. 8 karakter)
+class RefreshTokenRequest(BaseModel):
+    refresh_token: str

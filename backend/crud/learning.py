@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
 from backend.models import LearningGoal, LearningModule
 from backend.schemas.learning import LearningGoalCreate, LearningModuleCreate
+from backend.services.ai_service import generate_learning_modules
+
 
 def create_goal(db: Session, user_id: int, goal_data: LearningGoalCreate):
     """
@@ -12,13 +14,13 @@ def create_goal(db: Session, user_id: int, goal_data: LearningGoalCreate):
     db.refresh(goal)
     return goal
 
-def create_modules_for_user(db: Session, user_id: int, modules_data: list[LearningModuleCreate]):
+def create_modules_for_user(db: Session, user_id: int, modules_data: list[LearningModuleCreate] ,goal_id: int):
     """
     Kullanıcının hedefine ait birden fazla modülü oluşturur ve kaydeder.
     """
     created = []
     for data in modules_data:
-        module = LearningModule(**data.dict(), user_id=user_id)
+        module = LearningModule(**data.dict(), user_id=user_id, learning_goal_id=goal_id)
         db.add(module)
         created.append(module)
     db.commit()
@@ -96,3 +98,54 @@ def delete_modules_by_goal_id(db: Session, user_id: int, goal_id: int):
         db.delete(module)
     db.commit()
     return count
+
+def update_module(db: Session, user_id: int, module_id: int, updated_data: LearningModuleCreate):
+    """
+    Belirli bir modülü günceller. Kullanıcıya ait değilse None döner.
+    """
+    module = get_modules_by_goal_id(db, user_id, module_id)
+    if not module:
+        return None
+    for key, value in updated_data.dict().items():
+        setattr(module, key, value)
+    db.commit()
+    db.refresh(module)
+    return module
+
+def generate_and_save_modules(db: Session, user_id: int, goal):
+    modules = generate_learning_modules(
+        goal.goal_text,
+        goal.interest_areas,
+        goal.current_knowledge_level,
+    )
+
+    created_modules = []
+    for index, module_data in enumerate(modules):
+        # Eğer module_data bir Pydantic nesnesi ise nokta notasyonu kullan
+        if hasattr(module_data, "title"):
+            module = LearningModule(
+                title=module_data.title,
+                description=module_data.description,
+                category=module_data.category,
+                order=module_data.order,
+                learning_outcome=module_data.learning_outcome,
+                user_id=user_id,
+                learning_goal_id=goal.id,
+            )
+        else:
+            # Eğer dict dönerse yine de destekle
+            module = LearningModule(
+                title=module_data["title"],
+                description=module_data["description"],
+                category=module_data["category"],
+                order=module_data.get("order", index + 1),
+                learning_outcome=module_data["learning_outcome"],
+                user_id=user_id,
+                learning_goal_id=goal.id,
+            )
+
+        db.add(module)
+        created_modules.append(module)
+
+    db.commit()
+    return created_modules

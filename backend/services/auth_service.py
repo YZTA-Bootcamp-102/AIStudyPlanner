@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
+from backend.database import get_db
 from backend.models import User
 from backend.core.security import verify_password, get_password_hash
 from backend.services.token_service import verify_access_token
@@ -13,16 +14,16 @@ from backend.crud.auth import (
     get_user_by_email,
     get_user_by_reset_code,
     set_reset_code,
-    update_user_password,
+    update_user_password, get_user_by_username,
 )
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
 
 def authenticate_user(username: str, password: str, db: Session) -> User | None:
     """
-    Kullanıcı adı ve şifre doğrulama işlemini yapar.
+    Email ve şifre ile  doğrulama işlemini yapar.
     """
-    user = db.query(User).filter(User.username == username).first()
+    user = get_user_by_username(db, username)
     if not user or not verify_password(password, user.hashed_password):
         return None
     return user
@@ -33,23 +34,19 @@ def generate_reset_code(length: int = 12) -> str:
     """
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
-def get_current_user(token: str = Depends(oauth2_scheme)) -> dict:
-    """
-    JWT token ile gelen kullanıcıyı çözümler.
-    """
+def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> User:
     try:
         payload = verify_access_token(token)
-        return {
-            "username": payload.get("sub"),
-            "user_id": payload.get("user_id"),
-            "role": payload.get("role"),
-            "email": payload.get("email"),
-        }
+        user_id = payload.get("user_id")
+        if user_id is None:
+            raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Invalid token payload")
     except Exception:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid or expired token",
-        )
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired token")
+
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="User not found")
+    return user
 
 def send_password_reset_email(db: Session, email: str):
     """

@@ -9,10 +9,10 @@ from backend.core.security import get_password_hash
 from backend.core.config import settings
 from backend.database import get_db
 from backend.models.enums import UserRole
-from backend.schemas.auth import TokenResponse, PasswordResetRequest, PasswordResetForm
+from backend.schemas.auth import TokenResponse, PasswordResetRequest, PasswordResetForm, RefreshTokenRequest
 from backend.schemas.user import UserOut
 from backend.models import User
-from backend.services.auth_service import reset_password_with_code
+from backend.services.auth_service import reset_password_with_code, get_current_user
 from backend.services.auth_service import authenticate_user, send_password_reset_email
 from backend.services.token_service import (
     create_access_token,
@@ -84,13 +84,9 @@ def login_user(
     )
 
 @router.post("/refresh", response_model=TokenResponse)
-def refresh_token(refresh_token: str = Form(...)):
-    """
-    Refresh token doğrulaması ve yeni access token üretimi.
-    """
-    payload = verify_refresh_token(refresh_token)
+def refresh_token(data: RefreshTokenRequest):
+    payload = verify_refresh_token(data.refresh_token)
 
-    # Geçici kullanıcı nesnesi oluşturuluyor (database erişimi yok)
     dummy_user = SimpleNamespace(
         username=payload["sub"],
         id=payload["user_id"],
@@ -103,22 +99,14 @@ def refresh_token(refresh_token: str = Form(...)):
 
     return TokenResponse(
         access_token=new_access_token,
-        refresh_token=refresh_token,
+        refresh_token=data.refresh_token,
         token_type="bearer"
     )
 
 @router.get("/me", response_model=UserOut)
-def get_me(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
-    """
-    Token'dan kullanıcıyı çözüp geri döner.
-    """
-    payload = verify_access_token(token)
-    user = db.query(User).filter(User.id == payload["user_id"]).first()
+def get_me(current_user: User = Depends(get_current_user)):
+    return current_user
 
-    if not user:
-        raise HTTPException(status.HTTP_404_NOT_FOUND, detail="User not found")
-
-    return user
 
 @router.post("/password-reset")
 def password_reset(request: PasswordResetRequest, db: Session = Depends(get_db)):

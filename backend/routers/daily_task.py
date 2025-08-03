@@ -1,95 +1,113 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Annotated
 from datetime import date
-from backend.services.auth_service import get_current_user
+from typing import Dict
+from backend.models import User
 from backend.database import get_db
 from backend.schemas.daily_task import DailyTaskCreate, DailyTaskUpdate, DailyTaskOut
 from backend.crud import daily_task as daily_task_crud
-from typing import Annotated
+from backend.services.auth_service import get_current_user
 from starlette import status
-from backend.routers.auth import oauth2_scheme
 
-# API endpointlerini tanımlayan router
+# API Router tanımı
 router = APIRouter(
-    prefix="/daily-tasks",             # URL prefix
-    tags=["Daily Tasks"],              # Swagger'da grup etiketi
-    dependencies=[Depends(oauth2_scheme)]  # Her endpoint için token kontrolü
+    prefix="/daily-tasks",
+    tags=["Daily Tasks"]
 )
 
-# Kullanıcı doğrulamasını tip tanımıyla belirtiyoruz
-user_dependency = Annotated[dict, Depends(get_current_user)]
+# Kullanıcı doğrulamasını sağlayan dependency
+CurrentUser = Annotated[dict, Depends(get_current_user)]
+
+
+@router.get("/calendar-summary", response_model=Dict[str, int])
+def get_calendar_task_summary(
+    user: CurrentUser,
+    db: Session = Depends(get_db)
+):
+    """
+    Kullanıcının görevleri için tarih bazlı özet (kaç görev hangi günde) döner.
+    Örn: {"2025-08-02": 3, "2025-08-03": 1}
+    """
+    return daily_task_crud.get_task_counts_by_date(db, user.id)
+
 
 @router.post("/", response_model=DailyTaskOut)
-def create_task(user: user_dependency, task_in: DailyTaskCreate, db: Session = Depends(get_db)):
-    """Yeni günlük görev oluşturur."""
-    if user is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-    user_id = user.get("id")
-    return daily_task_crud.create_daily_task(db, task_in)
-
+def create_task(
+    task_in: DailyTaskCreate,
+    user: CurrentUser,
+    db: Session = Depends(get_db)
+):
+    return daily_task_crud.create_daily_task(db, task_in, user_id=user.id)
 
 @router.get("/", response_model=List[DailyTaskOut])
-def list_tasks_by_user(user: user_dependency, user_id: int, db: Session = Depends(get_db)):
-    """Kullanıcıya ait tüm görevleri listeler (user_id parametresi gereksiz gibi duruyor)."""
-    if user is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-    user_id = user.get("id")  # dışarıdan user_id almak yerine auth'dan çekilmeli
-    return daily_task_crud.get_all_tasks_by_user(db, user_id)
+def list_tasks_by_user(
+    user: CurrentUser,
+    db: Session = Depends(get_db)
+):
+    return daily_task_crud.get_all_tasks_by_user(db, user.id)
+
 
 
 @router.get("/by-date/", response_model=List[DailyTaskOut])
-def get_tasks_by_user_and_date(user: user_dependency, user_id: int, task_date: date, db: Session = Depends(get_db)):
+def get_tasks_by_user_and_date(
+    task_date: date,
+    user: CurrentUser,
+    db: Session = Depends(get_db)
+):
     """Belirli bir tarihteki görevleri getirir."""
-    if user is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-    user_id = user.get("id")
-    return daily_task_crud.get_tasks_by_user_and_date(db, user_id, task_date)
+    return daily_task_crud.get_tasks_by_user_and_date(db, user.id, task_date)
 
 
 @router.get("/{task_id}", response_model=DailyTaskOut)
-def get_task(user: user_dependency, task_id: int, db: Session = Depends(get_db)):
-    """Belirli bir görevi ID'sine göre getirir."""
-    if user is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-    user_id = user.get("id")
+def get_task(
+    task_id: int,
+    user: CurrentUser,
+    db: Session = Depends(get_db)
+):
+    """Görev ID'sine göre görev detayını getirir."""
     task = daily_task_crud.get_task_by_id(db, task_id)
-    if not task:
+    if not task or task.user_id != user.id:
         raise HTTPException(status_code=404, detail="Görev bulunamadı.")
     return task
 
 
 @router.put("/{task_id}", response_model=DailyTaskOut)
-def update_task(user: user_dependency, task_id: int, task_update: DailyTaskUpdate, db: Session = Depends(get_db)):
-    """Belirli bir görevi günceller."""
-    if user is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-    user_id = user.get("id")
-    updated = daily_task_crud.update_daily_task(db, task_id, task_update)
-    if not updated:
-        raise HTTPException(status_code=404, detail="Güncellenecek görev bulunamadı.")
-    return updated
+def update_task(
+    task_id: int,
+    task_update: DailyTaskUpdate,
+    user: CurrentUser,
+    db: Session = Depends(get_db)
+):
+    """Görevi günceller, yalnızca görevin sahibi güncelleme yapabilir."""
+    task = daily_task_crud.get_task_by_id(db, task_id)
+    if not task or task.user_id != user.id:
+        raise HTTPException(status_code=404, detail="Görev bulunamadı.")
+    return daily_task_crud.update_daily_task(db, task_id, task_update)
 
 
 @router.delete("/{task_id}", response_model=dict)
-def delete_task(user: user_dependency, task_id: int, db: Session = Depends(get_db)):
-    """Belirli bir görevi siler."""
-    if user is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-    user_id = user.get("id")
+def delete_task(
+    task_id: int,
+    user: CurrentUser,
+    db: Session = Depends(get_db)
+):
+    """Görevi siler, yalnızca sahibi silebilir."""
+    task = daily_task_crud.get_task_by_id(db, task_id)
+    if not task or task.user_id != user.id:
+        raise HTTPException(status_code=404, detail="Görev bulunamadı.")
     success = daily_task_crud.delete_daily_task(db, task_id)
-    if not success:
-        raise HTTPException(status_code=404, detail="Silinecek görev bulunamadı.")
-    return {"deleted": True}
+    return {"deleted": success}
 
 
 @router.post("/{task_id}/complete", response_model=DailyTaskOut)
-def mark_task_complete(user: user_dependency, task_id: int, db: Session = Depends(get_db)):
-    """Belirli bir görevi tamamlanmış olarak işaretler."""
-    if user is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-    user_id = user.get("id")
-    task = daily_task_crud.mark_task_as_completed(db, task_id)
-    if not task:
+def mark_task_complete(
+    task_id: int,
+    user: CurrentUser,
+    db: Session = Depends(get_db)
+):
+    """Görevi tamamlandı olarak işaretler."""
+    task = daily_task_crud.get_task_by_id(db, task_id)
+    if not task or task.user_id != user.id:
         raise HTTPException(status_code=404, detail="Görev bulunamadı.")
-    return task
+    return daily_task_crud.mark_task_as_completed(db, task_id)
