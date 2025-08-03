@@ -80,11 +80,10 @@ Kullanıcılar, günlük olarak AI tarafından oluşturulan planlara göre çal�
 
 | Teknoloji Kategorisi | Teknolojiler |
 |----------------------|--------------|
-| Backend |  |
-| Frontend |  |
+| Backend | Python |
+| Frontend | React TypeScript |
 | Veritabanı | PostgreSQL |
-| Yapay Zekâ Kütüphaneleri |  |
-| Diğer |  |
+| Yapay Zekâ Kütüphaneleri | Gemini |
 
 ---
 
