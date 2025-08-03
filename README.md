@@ -13,7 +13,7 @@ Yapay zeka destekli **öğrenme planlayıcınız**: Hedeflerinize uygun, akıll�
 
 **Sprint Planları:** [Sprint Planları](./ProjectFiles/SprintPlanları.pdf)
 
-**Product Backlog User Storyleri:** [Product Backlog User Storyleri](./ProjectFiles/ProductBacklogUserStory’leri.pdf)
+**Product Backlog User Storyleri:** [Product Backlog User Storyleri](./ProjectFiles/userstory.pdf)
 
 ---
 
