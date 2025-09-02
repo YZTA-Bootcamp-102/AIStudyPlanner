@@ -131,14 +131,7 @@ AIStudyPlanner/
 | Platform | Link |
 |----------|------|
 | GitHub | [https://github.com/YZTA-Bootcamp-102/AIStudyPlanner/](https://github.com/YZTA-Bootcamp-102/AIStudyPlanner/) |
-| Trello | - [https://trello.com/b/rYb67cj1/kanban-template](https://trello.com/b/rYb67cj1/kanban-template) |
-| Demo | - |
-| Dokümantasyon | - |
+| Trello | [https://trello.com/b/rYb67cj1/kanban-template](https://trello.com/b/rYb67cj1/kanban-template) |
 
 ---
 
-## Notlar
-
-- İçerikler ekip tarafından güncellenecektir.
-
----
